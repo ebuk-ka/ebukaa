@@ -1,31 +1,21 @@
 // src/components/About.jsx
+
 import { useEffect, useRef, useState } from "react";
-
-const STATS = [
-  { value: "10+", label: "Projects Built" },
-  { value: "UI",  label: "Focused" },
-  { value: "∞",   label: "Still Learning" },
-  { value:"☁️",   label: "Going into cloud eng"}
-];
-
-const PROJECTS = [
-  { type: "E-Commerce",   icon: "🛒", desc: "Full shopping experiences with product pages, carts & checkout flows." },
-  { type: "Landing Pages", icon: "🚀", desc: "Clean, conversion-focused pages built to look sharp on every screen." },
-];
-
-const SKILLS = ["React", "JavaScript", "HTML & CSS", "Tailwind", "Git", "Vite", "Responsive Design", "UI/UX Thinking"];
 
 export default function About({ darkMode }) {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  // Fade in when section scrolls into view
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
       { threshold: 0.15 }
     );
+
     if (sectionRef.current) observer.observe(sectionRef.current);
+
     return () => observer.disconnect();
   }, []);
 
@@ -40,303 +30,190 @@ export default function About({ darkMode }) {
         minHeight: "100vh",
         width: "100%",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "100px 24px 80px",
-        background: dk ? "#060912" : "#eef2ff",
-        boxSizing: "border-box",
+        padding: "120px 24px",
+        background: "linear-gradient(to bottom, rgba(45,31,31,0.6) 0%, #2D1F1F 20%)",
         overflow: "hidden",
-        transition: "background 0.5s",
+        transition: "background 0.5s ease",
       }}
     >
-      {/* Dot grid */}
-      <div style={{
-        position: "absolute", inset: 0, pointerEvents: "none",
-        backgroundImage: dk
-          ? "radial-gradient(circle, rgba(56,189,248,0.1) 1px, transparent 1px)"
-          : "radial-gradient(circle, rgba(2,132,199,0.08) 1px, transparent 1px)",
-        backgroundSize: "28px 28px",
-      }} />
+      {/* Background Grid */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          backgroundImage: dk
+            ? "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)"
+            : "radial-gradient(circle, rgba(15,23,42,0.06) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          opacity: 0.4,
+        }}
+      />
 
-      {/* Glow orb */}
-      <div style={{
-        position: "absolute", top: "20%", right: "5%",
-        width: 400, height: 400, borderRadius: "50%", pointerEvents: "none",
-        background: dk
-          ? "radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 70%)"
-          : "radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%)",
-        filter: "blur(50px)",
-      }} />
+      {/* Glow */}
+      <div
+        style={{
+          position: "absolute",
+          width: 500,
+          height: 500,
+          borderRadius: "50%",
+          top: "10%",
+          right: "-10%",
+          background: dk
+            ? "radial-gradient(circle, rgba(56,189,248,0.10), transparent 70%)"
+            : "radial-gradient(circle, rgba(99,102,241,0.10), transparent 70%)",
+          filter: "blur(60px)",
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* ── Content ── */}
-      <div style={{
-        position: "relative", zIndex: 10,
-        width: "100%", maxWidth: 1000,
-        display: "flex", flexDirection: "column", gap: 64,
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(32px)",
-        transition: "opacity 0.7s ease, transform 0.7s ease",
-      }}>
-
-        {/* Section label */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <span style={{
-            fontFamily: "monospace", fontSize: 11,
-            color: dk ? "#22d3ee" : "#0e7490",
-            letterSpacing: "0.15em", textTransform: "uppercase",
-          }}>
-            // about me
-          </span>
-          <h2 style={{
-            fontFamily: "'Syne', 'Outfit', system-ui, sans-serif",
-            fontSize: "clamp(2rem, 5vw, 3rem)",
-            fontWeight: 900, margin: 0,
-            color: dk ? "#f8fafc" : "#0f172a",
-            letterSpacing: "-0.02em",
-            transition: "color 0.5s",
-          }}>
-            Who is{" "}
-            <span style={{
-              background: dk
-                ? "linear-gradient(135deg, #38bdf8, #818cf8)"
-                : "linear-gradient(135deg, #0284c7, #6366f1)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              display: "inline-block",
-              transform: "translateZ(0)",
-            }}>Ebuka?</span>
-          </h2>
+      {/* Content */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          width: "100%",
+          maxWidth: 1200,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(40px)",
+          transition: "opacity 0.8s ease, transform 0.8s ease",
+        }}
+      >
+        {/* Quote Icon */}
+        <div
+          style={{
+            fontSize: "clamp(5rem, 12vw, 10rem)",
+            lineHeight: 1,
+            fontWeight: 900,
+            color: dk
+              ? "rgba(255,255,255,0.08)"
+              : "rgba(15,23,42,0.08)",
+            marginBottom: -20,
+            fontFamily: "'Syne', sans-serif",
+            userSelect: "none",
+          }}
+        >
+          ”
         </div>
 
-        {/* Two column layout */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: 40,
-          alignItems: "start",
-        }}>
+        {/* Heading */}
+        <h2
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontSize: "clamp(2.4rem, 7vw, 6.5rem)",
+            lineHeight: 0.95,
+            letterSpacing: "-0.07em",
+            fontWeight: 800,
+            maxWidth: 1000,
+            color: dk ? "#f8fafc" : "#0f172a",
+            margin: 0,
+          }}
+        >
+          Building
+          <span
+            style={{
+              fontStyle: "italic",
+              fontWeight: 500,
+              opacity: 0.75,
+              marginLeft: 16,
+            }}
+          >
+            modern
+          </span>
 
-          {/* Left — bio + stats */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+          <br />
 
-            {/* Avatar + bio card */}
-            <div style={{
-              borderRadius: 16,
-              border: dk ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
-              background: dk ? "#0d1117" : "#ffffff",
-              padding: 28,
-              boxShadow: dk ? "0 20px 50px rgba(0,0,0,0.4)" : "0 10px 40px rgba(100,116,139,0.1)",
-              transition: "all 0.5s",
-            }}>
-              {/* Avatar row */}
-              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
-                <div style={{
-                  width: 56, height: 56, borderRadius: 14, flexShrink: 0,
-                  background: "linear-gradient(135deg, #0ea5e9, #6366f1)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontFamily: "monospace", fontWeight: 900, fontSize: 22, color: "#fff",
-                  boxShadow: dk ? "0 0 20px rgba(56,189,248,0.3)" : "0 4px 16px rgba(2,132,199,0.25)",
-                }}>
-                  E
-                </div>
-                <div>
-                  <div style={{
-                    fontFamily: "'Syne', system-ui, sans-serif",
-                    fontWeight: 800, fontSize: 18,
-                    color: dk ? "#f8fafc" : "#0f172a",
-                    transition: "color 0.5s",
-                  }}>
-                    Ebuka Okolo
-                  </div>
-                  <div style={{
-                    fontFamily: "monospace", fontSize: 11,
-                    color: dk ? "#22d3ee" : "#0e7490",
-                    marginTop: 2,
-                  }}>
-                    Frontend Dev · Nigeria 🇳🇬
-                  </div>
-                </div>
-              </div>
+          digital experiences
+          <span
+            style={{
+              display: "inline-block",
+              padding: "0px 14px",
+              borderRadius: 12,
+              marginLeft: 14,
+              background: dk
+                ? "rgba(255,255,255,0.08)"
+                : "rgba(15,23,42,0.08)",
+            }}
+          >
+            that convert.
+          </span>
+        </h2>
 
-              {/* Bio */}
-              <p style={{
-                fontFamily: "monospace",
-                fontSize: 13, lineHeight: 1.9, margin: 0,
-                color: dk ? "#94a3b8" : "#64748b",
-                transition: "color 0.5s",
-              }}>
-                I'm Ebuka Okolo, a self-taught developer from Nigeria on a mission to master
-                fullstack development. I've built e-commerce sites and landing pages that are
-                clean, fast, and built to convert — and I'm just getting started. Every project
-                teaches me something new, and I'm not stopping until I've shipped them all.
-              </p>
+        {/* Divider */}
+        <div
+          style={{
+            width: 120,
+            height: 1,
+            margin: "42px 0 32px",
+            background: dk
+              ? "rgba(255,255,255,0.14)"
+              : "rgba(15,23,42,0.14)",
+          }}
+        />
 
-              {/* Divider */}
-              <div style={{
-                height: 1, margin: "20px 0",
-                background: dk ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)",
-              }} />
+        {/* About Text */}
+        <p
+          style={{
+            maxWidth: 720,
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "clamp(1rem, 1.5vw, 1.2rem)",
+            lineHeight: 1.9,
+            color: dk ? "#94a3b8" : "#475569",
+            margin: 0,
+          }}
+        >
+          I’m Ebuka Okolo — a fullstack developer focused on creating
+          clean, scalable and visually refined web experiences.
+          From sleek landing pages to full web systems,
+          I build products that combine performance,
+          simplicity and modern design.
+        </p>
 
-              {/* Location + status */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                {[
-                  { icon: "📍", text: "Lagos, Nigeria" },
-                  { icon: "🎯", text: "Learning Fullstack" },
-                  { icon: "🟢", text: "Open to opportunities" },
-                ].map(item => (
-                  <span key={item.text} style={{
-                    display: "inline-flex", alignItems: "center", gap: 6,
-                    padding: "4px 12px", borderRadius: 99,
-                    fontFamily: "monospace", fontSize: 11,
-                    background: dk ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
-                    border: dk ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.07)",
-                    color: dk ? "#94a3b8" : "#64748b",
-                  }}>
-                    {item.icon} {item.text}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Stats row */}
-            <div style={{
-              display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12,
-            }}>
-              {STATS.map((stat, i) => (
-                <div key={i} style={{
-                  borderRadius: 12, padding: "16px 8px",
-                  border: dk ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
-                  background: dk ? "#0d1117" : "#ffffff",
-                  display: "flex", flexDirection: "column",
-                  alignItems: "center", gap: 4, textAlign: "center",
-                  boxShadow: dk ? "0 8px 24px rgba(0,0,0,0.3)" : "0 4px 16px rgba(100,116,139,0.08)",
-                  transition: "all 0.5s",
-                }}>
-                  <span style={{
-                    fontFamily: "'Syne', monospace", fontWeight: 900, fontSize: 20,
-                    background: "linear-gradient(135deg, #38bdf8, #818cf8)",
-                    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                    backgroundClip: "text", display: "inline-block", transform: "translateZ(0)",
-                  }}>
-                    {stat.value}
-                  </span>
-                  <span style={{
-                    fontFamily: "monospace", fontSize: 9,
-                    color: dk ? "#475569" : "#94a3b8",
-                    textTransform: "uppercase", letterSpacing: "0.08em",
-                  }}>
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right — projects + skills */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-
-            {/* What I build */}
-            <div style={{
-              borderRadius: 16,
-              border: dk ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
-              background: dk ? "#0d1117" : "#ffffff",
-              padding: 24,
-              boxShadow: dk ? "0 20px 50px rgba(0,0,0,0.4)" : "0 10px 40px rgba(100,116,139,0.1)",
-              transition: "all 0.5s",
-            }}>
-              <span style={{
-                fontFamily: "monospace", fontSize: 11,
-                color: dk ? "#22d3ee" : "#0e7490",
-                letterSpacing: "0.1em", textTransform: "uppercase",
-              }}>
-                // what i build
-              </span>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
-                {PROJECTS.map((p, i) => (
-                  <div key={i} style={{
-                    display: "flex", gap: 14, alignItems: "flex-start",
-                    padding: 16, borderRadius: 12,
-                    background: dk ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
-                    border: dk ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.05)",
-                    transition: "all 0.3s",
-                  }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.background = dk ? "rgba(56,189,248,0.06)" : "rgba(2,132,199,0.05)";
-                      e.currentTarget.style.borderColor = dk ? "rgba(56,189,248,0.15)" : "rgba(2,132,199,0.15)";
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.background = dk ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)";
-                      e.currentTarget.style.borderColor = dk ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
-                    }}
-                  >
-                    <span style={{ fontSize: 24, flexShrink: 0 }}>{p.icon}</span>
-                    <div>
-                      <div style={{
-                        fontFamily: "monospace", fontWeight: 700, fontSize: 13,
-                        color: dk ? "#f1f5f9" : "#0f172a",
-                        marginBottom: 4, transition: "color 0.5s",
-                      }}>
-                        {p.type}
-                      </div>
-                      <div style={{
-                        fontFamily: "monospace", fontSize: 12, lineHeight: 1.7,
-                        color: dk ? "#64748b" : "#94a3b8",
-                        transition: "color 0.5s",
-                      }}>
-                        {p.desc}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Skills */}
-            <div style={{
-              borderRadius: 16,
-              border: dk ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)",
-              background: dk ? "#0d1117" : "#ffffff",
-              padding: 24,
-              boxShadow: dk ? "0 20px 50px rgba(0,0,0,0.4)" : "0 10px 40px rgba(100,116,139,0.1)",
-              transition: "all 0.5s",
-            }}>
-              <span style={{
-                fontFamily: "monospace", fontSize: 11,
-                color: dk ? "#22d3ee" : "#0e7490",
-                letterSpacing: "0.1em", textTransform: "uppercase",
-              }}>
-                // skills & tools
-              </span>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
-                {SKILLS.map((skill, i) => (
-                  <span
-                    key={i}
-                    style={{
-                      padding: "6px 14px", borderRadius: 99,
-                      fontFamily: "monospace", fontSize: 11, fontWeight: 600,
-                      border: dk ? "1px solid rgba(56,189,248,0.2)" : "1px solid rgba(2,132,199,0.2)",
-                      background: dk ? "rgba(56,189,248,0.07)" : "rgba(2,132,199,0.06)",
-                      color: dk ? "#38bdf8" : "#0284c7",
-                      transition: "all 0.3s", cursor: "default",
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.background = dk ? "rgba(56,189,248,0.15)" : "rgba(2,132,199,0.12)";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.background = dk ? "rgba(56,189,248,0.07)" : "rgba(2,132,199,0.06)";
-                      e.currentTarget.style.transform = "translateY(0)";
-                    }}
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-          </div>
+        {/* Tags */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: 12,
+            marginTop: 42,
+          }}
+        >
+          {[
+            "React",
+            "Supabase",
+            "Modern UI",
+            "Responsive Systems",
+            "Frontend & Backend",
+          ].map((item) => (
+            <span
+              key={item}
+              style={{
+                padding: "10px 18px",
+                borderRadius: 999,
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 13,
+                fontWeight: 500,
+                background: dk
+                  ? "rgba(255,255,255,0.05)"
+                  : "rgba(15,23,42,0.05)",
+                border: dk
+                  ? "1px solid rgba(255,255,255,0.08)"
+                  : "1px solid rgba(15,23,42,0.08)",
+                color: dk ? "#e2e8f0" : "#334155",
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              {item}
+            </span>
+          ))}
         </div>
       </div>
     </section>

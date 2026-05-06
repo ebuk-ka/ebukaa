@@ -1,304 +1,509 @@
 // src/components/Hero.jsx
-import { useState, useEffect } from "react";
 
-const BADGES = [
-  { label: "React",      color: "#61dafb", icon: "⚛" },
-  { label: "JavaScript", color: "#f7df1e", icon: "JS" },
-  { label: "TypeScript", color: "#3178c6", icon: "TS" },
-  { label: "Tailwind",   color: "#38bdf8", icon: "✦" },
-  { label: "HTML/CSS",   color: "#e34f26", icon: "🌐" },
-  { label: "Vite",       color: "#646cff", icon: "⚡" },
-  { label: "Git",        color: "#f1502f", icon: "⎇" },
-  { label: "GitHub",     color: "#a78bfa", icon: "⎊" },
-];
+import ebukaImage from "../assets/images/ebukaokolo.jpeg";
 
-const TYPING_LINES = [
-  "const dev = new ReactDev('Ebuka');",
-  "dev.learning = ['React', 'JavaScript', 'Tailwind'];",
-  "dev.building = 'real projects to grow my skills';",
-  "dev.goal = '🚀 become a fullstack developer';",
-  "export default dev; // the journey starts here ✦",
-];
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-function highlight(line, dk) {
-  const kw  = dk ? "#7dd3fc" : "#0369a1";
-  const str = dk ? "#86efac" : "#15803d";
-  const cmt = dk ? "#4b5563" : "#9ca3af";
-  const acc = dk ? "#c084fc" : "#7c3aed";
-  const op  = dk ? "#38bdf8" : "#0891b2";
-  return line
-    .replace(/(\/\/.*$)/g,                                         `<span style="color:${cmt}">$1</span>`)
-    .replace(/\b(const|let|var|new|export|default|import|from)\b/g,`<span style="color:${kw}">$1</span>`)
-    .replace(/('[^']*'|"[^"]*"|`[^`]*`)/g,                        `<span style="color:${str}">$1</span>`)
-    .replace(/\b(dev|ReactDev)\b/g,                            `<span style="color:${acc}">$1</span>`)
-    .replace(/(=(?!=))/g,                                          `<span style="color:${op}">$1</span>`);
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #2D1F1F;
+    display: grid;
+    place-items: center;
+    animation: loaderOut 0.7s ease 2s forwards;
+  }
+
+  .loader-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 6vw, 54px);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.07em;
+  }
+
+  .loader-bar {
+    width: 180px;
+    height: 4px;
+    background: rgba(255,255,255,0.14);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 22px auto 0;
+  }
+
+  .loader-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: #c76a3d;
+    animation: loadBar 1.8s ease forwards;
+  }
+
+  @keyframes loadBar {
+    to { width: 100%; }
+  }
+
+  @keyframes loaderOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  .hero {
+    background: linear-gradient(180deg, #2D1F1F 0%, #1b1212 100%);
+    min-height: calc(100vh - 64px);
+    font-family: 'Syne', sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 39% minmax(0, 61%);
+    min-height: calc(100vh - 64px);
+    align-items: center;
+    gap: 34px;
+    padding: 42px clamp(20px, 3vw, 52px);
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  .hero__photo-col,
+  .hero__text-area {
+    min-width: 0;
+  }
+
+  .hero__photo-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .hero__photo {
+    width: 100%;
+    height: min(72vh, 640px);
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 28px;
+    filter: grayscale(12%);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.45);
+    animation: heroPhotoIn 0.9s ease both;
+  }
+
+  .hero__photo-wrap::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: 12px;
+    bottom: 12px;
+    border-radius: 32px;
+    border: 1.5px solid rgba(196,106,60,0.18);
+    z-index: -1;
+  }
+
+  .hero__photo-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background-image: radial-gradient(circle, rgba(196,106,60,0.28) 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+    z-index: -1;
+  }
+
+  .hero__text-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #d4c4be;
+    margin-bottom: 30px;
+  }
+
+  .hero__status-dot {
+    width: 9px;
+    height: 9px;
+    background: #C46A3C;
+    border-radius: 50%;
+    animation: pulseDot 2.4s ease infinite;
+  }
+
+  .hero__heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(46px, 5.45vw, 86px);
+    line-height: 0.9;
+    letter-spacing: -0.065em;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0 0 26px;
+    max-width: 760px;
+  }
+
+  .hero__card {
+    background: #f5f1ed;
+    color: #111;
+    border-radius: 22px;
+    padding: 24px 28px;
+    max-width: 620px;
+    position: relative;
+    box-shadow: 0 28px 70px rgba(0,0,0,0.3);
+  }
+
+  .hero__card-headline {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(18px, 1.55vw, 24px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    color: #111;
+    margin-bottom: 14px;
+  }
+
+  .hero__card-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #444;
+  }
+
+  .hero__badge {
+    position: absolute;
+    right: -12px;
+    top: 28px;
+    background: #fff;
+    color: #111;
+    border-radius: 8px;
+    padding: 8px 13px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    white-space: nowrap;
+  }
+
+  .hero__badge-icon {
+    width: 22px;
+    height: 16px;
+    background: linear-gradient(135deg, #C46A3C 0%, #e39b76 100%);
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 900;
+  }
+
+  .hero__badge2 {
+    position: absolute;
+    right: -12px;
+    bottom: -14px;
+    background: #080808;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    white-space: nowrap;
+  }
+
+  .hero__badge2-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #C46A3C;
+  }
+
+  @keyframes pulseDot {
+    0%,100% { box-shadow: 0 0 0 0 rgba(196,106,60,0.45); }
+    50% { box-shadow: 0 0 0 6px rgba(196,106,60,0); }
+  }
+
+  @keyframes heroPhotoIn {
+    from { opacity: 0; transform: scale(1.04); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 980px) {
+    .hero__grid {
+      display: flex;
+      flex-direction: column;
+      padding: 18px 8px 32px;
+      gap: 20px;
+      min-height: auto;
+    }
+
+    .hero__text-area {
+      width: 100%;
+      display: contents;
+    }
+
+    .hero__status {
+      display: none;
+    }
+
+    .hero__heading {
+      order: 1;
+      width: 100%;
+      font-size: clamp(28px, 9vw, 52px);
+      line-height: 1.04;
+      letter-spacing: -0.055em;
+      margin-bottom: 0;
+      max-width: 100%;
+    }
+
+    .hero__photo-col {
+      order: 2;
+      width: 100%;
+    }
+
+    .hero__photo-wrap::before,
+    .hero__photo-wrap::after {
+      display: none;
+    }
+
+    .hero__photo {
+      width: 100%;
+      height: auto;
+      max-height: none;
+      aspect-ratio: 1 / 1.23;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 14px;
+      box-shadow: none;
+      clip-path: none;
+    }
+
+    .hero__card {
+      order: 3;
+      width: 100%;
+      max-width: 100%;
+      margin-top: 0;
+      padding: 14px 13px 12px;
+      border-radius: 16px;
+    }
+
+    .hero__card-headline {
+      font-size: 14px;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      margin-bottom: 10px;
+    }
+
+    .hero__card-body {
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+
+    .hero__badge,
+    .hero__badge2 {
+      display: flex;
+      transform: scale(0.82);
+      transform-origin: right center;
+    }
+
+    .hero__badge {
+      right: -6px;
+      top: 44px;
+    }
+
+    .hero__badge2 {
+      right: -6px;
+      bottom: -10px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero__grid {
+      padding: 18px 8px 28px;
+      gap: 18px;
+    }
+
+    .hero__heading {
+      font-size: clamp(24px, 10vw, 42px);
+      line-height: 1.08;
+    }
+
+    .hero__photo {
+      aspect-ratio: 1 / 1.25;
+      border-radius: 14px;
+    }
+
+    .hero__card {
+      padding: 14px 13px;
+      border-radius: 16px;
+    }
+
+    .hero__card-headline {
+      font-size: 13px;
+    }
+
+    .hero__card-body {
+      font-size: 12px;
+    }
+
+    .loader-bar {
+      width: 150px;
+    }
+  }
+
+  .hero__cta-group {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-function FloatingBadge({ label, color, icon, style, darkMode }) {
-  return (
-    <div style={{
-      position: "absolute", display: "flex", alignItems: "center", gap: 7,
-      padding: "6px 14px", borderRadius: 99,
-      fontFamily: "monospace", fontSize: 11, fontWeight: 600,
-      backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
-      userSelect: "none", pointerEvents: "none",
-      borderColor: `${color}40`,
-      border: `1px solid ${color}40`,
-      backgroundColor: darkMode ? `${color}14` : `${color}1c`,
-      color,
-      boxShadow: darkMode ? `0 0 18px ${color}25` : `0 2px 14px ${color}22`,
-      ...style,
-    }}>
-      <span>{icon}</span>{label}
-    </div>
-  );
+.hero__cta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid #111;
+  text-decoration: none;
+  color: #111;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.25s ease;
 }
 
-export default function Hero({ darkMode }) {
-  const [displayedLines, setDisplayedLines] = useState([]);
-  const [currentLine,    setCurrentLine]    = useState("");
-  const [lineIdx,        setLineIdx]        = useState(0);
-  const [charIdx,        setCharIdx]        = useState(0);
-  const [done,           setDone]           = useState(false);
+.hero__cta:hover {
+  background: #C46A3C;
+  color: #fff;
+}
 
-  useEffect(() => {
-    if (lineIdx >= TYPING_LINES.length) return;
-    const line = TYPING_LINES[lineIdx];
-    if (charIdx < line.length) {
-      const t = setTimeout(() => { setCurrentLine(p => p + line[charIdx]); setCharIdx(c => c + 1); }, 45);
-      return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => {
-        setDisplayedLines(p => [...p, line]);
-        setCurrentLine(""); setCharIdx(0); setLineIdx(l => l + 1);
-      }, 320);
-      return () => clearTimeout(t);
-    }
-  }, [charIdx, lineIdx]);
+.hero__cta.ghost {
+  border-color: #aaa;
+  color: #444;
+}
 
-  useEffect(() => {
-    if (lineIdx >= TYPING_LINES.length && !done) {
-      const timer = setTimeout(() => setDone(true), 0);
-      return () => clearTimeout(timer);
-    }
-  }, [lineIdx, done]);
+.hero__cta.ghost:hover {
+  background: #C46A3C;
+  color: #fff;
+  border-color: #222;
+}
 
-  const dk = darkMode;
+.hero__cta-icon {
+  width: 30px;
+  height: 30px;
+  background: #111;
+  color: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+`;
 
+export default function Hero({
+  photo = ebukaImage,
+  heading1 = "FULLSTACK",
+  heading2 = "WEB DEVELOPER",
+}) {
   return (
-    <section id="home" style={{
-      position: "relative",
-      minHeight: "100vh",
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "96px 24px 64px",
-      overflow: "hidden",
-      background: dk ? "#060912" : "#eef2ff",
-      transition: "background 0.5s",
-      boxSizing: "border-box",
-    }}>
+    <>
+      <style>{CSS}</style>
 
-      {/* Dot grid */}
-      <div style={{
-        position: "absolute", inset: 0, pointerEvents: "none",
-        backgroundImage: dk
-          ? "radial-gradient(circle, rgba(56,189,248,0.16) 1px, transparent 1px)"
-          : "radial-gradient(circle, rgba(2,132,199,0.11) 1px, transparent 1px)",
-        backgroundSize: "28px 28px",
-      }} />
-
-      {/* Glow blobs */}
-      <div style={{
-        position: "absolute", top: "5%", left: "8%",
-        width: 500, height: 500, borderRadius: "50%", pointerEvents: "none",
-        background: dk
-          ? "radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%)"
-          : "radial-gradient(circle, rgba(56,189,248,0.13) 0%, transparent 70%)",
-        filter: "blur(55px)",
-      }} />
-      <div style={{
-        position: "absolute", bottom: "5%", right: "5%",
-        width: 420, height: 420, borderRadius: "50%", pointerEvents: "none",
-        background: dk
-          ? "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)"
-          : "radial-gradient(circle, rgba(139,92,246,0.11) 0%, transparent 70%)",
-        filter: "blur(55px)",
-      }} />
-
-      {/* Floating badges — visible on large screens only via CSS class */}
-      <div className="hero-badges">
-        <FloatingBadge {...BADGES[0]} darkMode={dk} style={{ top: "16%",   left:  "4%",  animation: "float1 6s ease-in-out infinite" }} />
-        <FloatingBadge {...BADGES[1]} darkMode={dk} style={{ top: "24%",   right: "4%",  animation: "float2 7s ease-in-out infinite" }} />
-        <FloatingBadge {...BADGES[2]} darkMode={dk} style={{ top: "56%",   left:  "2%",  animation: "float2 8s ease-in-out infinite" }} />
-        <FloatingBadge {...BADGES[3]} darkMode={dk} style={{ bottom: "18%",right: "3%",  animation: "float1 6.5s ease-in-out infinite" }} />
-        <FloatingBadge {...BADGES[4]} darkMode={dk} style={{ bottom: "30%",left:  "5%",  animation: "float3 9s ease-in-out infinite" }} />
-        <FloatingBadge {...BADGES[5]} darkMode={dk} style={{ top: "43%",   right: "2%",  animation: "float1 7.5s ease-in-out infinite" }} />
-        <FloatingBadge {...BADGES[6]} darkMode={dk} style={{ top: "8%",    right: "20%", animation: "float3 8.5s ease-in-out infinite" }} />
-        <FloatingBadge {...BADGES[7]} darkMode={dk} style={{ bottom: "13%",left:  "18%", animation: "float2 7s ease-in-out infinite" }} />
-      </div>
-
-      {/* Main content */}
-      <div style={{
-        position: "relative", zIndex: 1,
-        display: "flex", flexDirection: "column",
-        alignItems: "center", textAlign: "center",
-        width: "100%", maxWidth: 720, gap: 24,
-      }}>
-
-        {/* Status badge */}
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 8,
-          padding: "6px 16px", borderRadius: 99,
-          fontFamily: "monospace", fontSize: 12,
-          border: dk ? "1px solid rgba(56,189,248,0.22)" : "1px solid rgba(2,132,199,0.22)",
-          background: dk ? "rgba(56,189,248,0.08)" : "rgba(2,132,199,0.07)",
-          color: dk ? "#38bdf8" : "#0284c7",
-        }}>
-          <span style={{
-            width: 8, height: 8, borderRadius: "50%",
-            background: "#4ade80", boxShadow: "0 0 7px #4ade80",
-            animation: "heroPulse 2s infinite",
-            flexShrink: 0,
-          }} />
-          Learning React & building in public
-        </div>
-
-        {/* Headline */}
+      <div className="page-loader">
         <div>
-          <h1 style={{
-            margin: 0, fontFamily: "'Syne','Outfit',sans-serif",
-            fontSize: "clamp(2.6rem, 7vw, 4.5rem)",
-            fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em",
-            color: dk ? "#fff" : "#0f172a", transition: "color 0.5s",
-          }}>
-            Hi, I'm{" "}
-            <span style={{
-              background: dk
-                ? "linear-gradient(135deg,#38bdf8 0%,#818cf8 100%)"
-                : "linear-gradient(135deg,#0284c7 0%,#6366f1 100%)",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", display: "inline-block", transform: "translateZ(0)",
-            }}>Ebuka</span>
-          </h1>
-          <h2 style={{
-            margin: "12px 0 0", fontFamily: "monospace",
-            fontSize: "clamp(0.95rem, 2.2vw, 1.15rem)", fontWeight: 500,
-            color: dk ? "#94a3b8" : "#64748b", transition: "color 0.5s",
-          }}>
-            Frontend Developer &amp;{" "}
-            <span style={{ color: dk ? "#38bdf8" : "#0284c7" }}>Aspiring Full-Stack Dev</span>
-          </h2>
-        </div>
-
-        {/* Description */}
-        <p style={{
-          margin: 0, maxWidth: 560,
-          fontFamily: "monospace", fontSize: "clamp(0.78rem, 1.6vw, 0.92rem)",
-          lineHeight: 1.8, color: dk ? "#94a3b8" : "#64748b", transition: "color 0.5s",
-        }}>
-          I'm learning React and building real projects along the way.
-          Every line of code is a step closer to where I want to be.
-        </p>
-
-        {/* CTAs */}
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 14 }}>
-          <a href="#projects" style={{
-            padding: "12px 28px", borderRadius: 10,
-            fontFamily: "monospace", fontSize: 14, fontWeight: 700,
-            color: "#fff", textDecoration: "none",
-            background: dk ? "linear-gradient(135deg,#0ea5e9,#6366f1)" : "linear-gradient(135deg,#0284c7,#4f46e5)",
-            boxShadow: dk
-              ? "0 0 28px rgba(56,189,248,0.32), 0 4px 20px rgba(99,102,241,0.2)"
-              : "0 4px 20px rgba(2,132,199,0.35)",
-            transition: "transform 0.2s, filter 0.2s",
-          }}
-            onMouseEnter={e => e.currentTarget.style.filter = "brightness(1.1)"}
-            onMouseLeave={e => e.currentTarget.style.filter = "brightness(1)"}
-          >View Projects →</a>
-          <a href="#contact" style={{
-            padding: "12px 28px", borderRadius: 10,
-            fontFamily: "monospace", fontSize: 14, fontWeight: 700,
-            textDecoration: "none",
-            color: dk ? "#38bdf8" : "#0284c7",
-            border: dk ? "1px solid rgba(56,189,248,0.3)" : "1px solid rgba(2,132,199,0.35)",
-            background: "transparent", transition: "all 0.25s",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.background = dk ? "rgba(56,189,248,0.08)" : "rgba(2,132,199,0.06)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
-          >Contact Me ↗</a>
-        </div>
-
-        {/* Code block */}
-        <div style={{
-          width: "100%", borderRadius: 16, overflow: "hidden",
-          border: dk ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(148,163,184,0.35)",
-          background: dk ? "#0d1117" : "#fff",
-          boxShadow: dk ? "0 25px 60px rgba(0,0,0,0.6)" : "0 12px 40px rgba(148,163,184,0.35)",
-          transition: "all 0.5s",
-        }}>
-          {/* Titlebar */}
-          <div style={{
-            display: "flex", alignItems: "center", gap: 7, padding: "10px 20px",
-            borderBottom: dk ? "1px solid rgba(255,255,255,0.05)" : "1px solid #f1f5f9",
-            background: dk ? "#161b22" : "#f8fafc",
-          }}>
-            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f57", flexShrink: 0 }} />
-            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#febc2e", flexShrink: 0 }} />
-            <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#28c840", flexShrink: 0 }} />
-            <span style={{ marginLeft: 10, fontFamily: "monospace", fontSize: 11, color: dk ? "#475569" : "#94a3b8" }}>ebuka.js</span>
-            <span style={{
-              marginLeft: "auto", fontFamily: "monospace", fontSize: 11,
-              padding: "2px 10px", borderRadius: 6,
-              color: dk ? "#38bdf8" : "#0284c7",
-              border: dk ? "1px solid rgba(56,189,248,0.22)" : "1px solid rgba(2,132,199,0.2)",
-              background: dk ? "rgba(56,189,248,0.08)" : "rgba(2,132,199,0.06)",
-            }}>JavaScript</span>
+          <div className="loader-logo">ebukaokolo</div>
+          <div className="loader-bar">
+            <span></span>
           </div>
-
-          {/* Code */}
-          <div style={{ padding: "20px 24px", textAlign: "left", fontFamily: "monospace", fontSize: 13, lineHeight: 2, minHeight: 176 }}>
-            {displayedLines.map((line, i) => (
-              <div key={i} style={{ display: "flex", gap: 20 }}>
-                <span style={{ minWidth: 16, textAlign: "right", color: dk ? "#2d3748" : "#d1d5db", userSelect: "none", fontSize: 11, paddingTop: 2 }}>{i + 1}</span>
-                <span style={{ color: dk ? "#cbd5e1" : "#374151" }} dangerouslySetInnerHTML={{ __html: highlight(line, dk) }} />
-              </div>
-            ))}
-            {!done && lineIdx < TYPING_LINES.length && (
-              <div style={{ display: "flex", gap: 20 }}>
-                <span style={{ minWidth: 16, textAlign: "right", color: dk ? "#2d3748" : "#d1d5db", userSelect: "none", fontSize: 11, paddingTop: 2 }}>{displayedLines.length + 1}</span>
-                <span style={{ color: dk ? "#cbd5e1" : "#374151" }} dangerouslySetInnerHTML={{
-                  __html: highlight(currentLine, dk) + `<span style="color:${dk ? "#38bdf8" : "#0284c7"};animation:blink 1s step-start infinite">▋</span>`
-                }} />
-              </div>
-            )}
-            {done && (
-              <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
-                <span style={{ minWidth: 16, color: dk ? "#2d3748" : "#d1d5db", fontSize: 11 }}>{TYPING_LINES.length + 1}</span>
-                <span style={{ color: dk ? "#38bdf8" : "#0284c7", animation: "blink 1s step-start infinite" }}>▋</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Scroll hint */}
-        <div style={{ fontFamily: "monospace", fontSize: 11, color: dk ? "#1e293b" : "#94a3b8", display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-          <span>scroll to explore</span>
-          <span style={{ animation: "heroBounce 1.5s ease-in-out infinite" }}>↓</span>
         </div>
       </div>
 
-      <style>{`
-        @keyframes float1    { 0%,100%{transform:translateY(0) rotate(0deg)}  50%{transform:translateY(-14px) rotate(1deg)} }
-        @keyframes float2    { 0%,100%{transform:translateY(0) rotate(0deg)}  50%{transform:translateY(-20px) rotate(-1deg)} }
-        @keyframes float3    { 0%,100%{transform:translateY(0)} 33%{transform:translateY(-10px)} 66%{transform:translateY(-6px)} }
-        @keyframes blink     { 0%,100%{opacity:1} 50%{opacity:0} }
-        @keyframes heroPulse { 0%,100%{opacity:1} 50%{opacity:0.45} }
-        @keyframes heroBounce{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
-        .hero-badges { display: none; }
-        @media (min-width: 1280px) { .hero-badges { display: contents; } }
-      `}</style>
-    </section>
+      <section className="hero">
+        <div className="hero__grid">
+          <div className="hero__photo-col">
+            <div className="hero__photo-wrap">
+              <img
+                src={photo}
+                alt="Ebuka Okolo"
+                className="hero__photo"
+                loading="eager"
+              />
+            </div>
+          </div>
+
+          <div className="hero__text-area">
+            
+
+            <h1 className="hero__heading">
+              {heading1}
+              <br />
+              {heading2}
+            </h1>
+
+            <div className="hero__card">
+              <p className="hero__card-headline">
+  I’m a Fullstack Developer building modern, scalable web apps for businesses that want to grow fast and stand out.
+</p>
+
+<p className="hero__card-body">
+  I design and develop clean, high-performance digital experiences using React, Supabase and modern tools.
+</p>
+
+<div className="hero__cta-group">
+  <a href="#" className="hero__cta">
+    <span>Get in touch</span>
+    <div className="hero__cta-icon">↗</div>
+  </a>
+
+  <a href="#" className="hero__cta ghost">
+    <span>View my work</span>
+    <div className="hero__cta-icon">→</div>
+  </a>
+</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

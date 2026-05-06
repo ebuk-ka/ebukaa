@@ -83,8 +83,8 @@ export default function Code({ darkMode }) {
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
         backgroundImage: dk
-          ? "radial-gradient(circle, rgba(56,189,248,0.1) 1px, transparent 1px)"
-          : "radial-gradient(circle, rgba(2,132,199,0.08) 1px, transparent 1px)",
+          ? "radial-gradient(circle, rgba(196,106,60,0.12) 1px, transparent 1px)"
+          : "radial-gradient(circle, rgba(196,106,60,0.08) 1px, transparent 1px)",
         backgroundSize: "28px 28px",
       }} />
 
@@ -93,8 +93,8 @@ export default function Code({ darkMode }) {
         position: "absolute", bottom: "10%", left: "5%",
         width: 400, height: 400, borderRadius: "50%", pointerEvents: "none",
         background: dk
-          ? "radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)"
-          : "radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%)",
+          ? "radial-gradient(circle, rgba(196,106,60,0.12) 0%, transparent 70%)"
+          : "radial-gradient(circle, rgba(196,106,60,0.14) 0%, transparent 70%)",
         filter: "blur(50px)",
       }} />
 
@@ -112,7 +112,7 @@ export default function Code({ darkMode }) {
         <div>
           <span style={{
             fontFamily: "monospace", fontSize: 11,
-            color: dk ? "#22d3ee" : "#0e7490",
+            color: "#C46A3C",
             letterSpacing: "0.15em", textTransform: "uppercase",
           }}>
             // my github
@@ -128,8 +128,8 @@ export default function Code({ darkMode }) {
             Code &{" "}
             <span style={{
               background: dk
-                ? "linear-gradient(135deg, #38bdf8, #818cf8)"
-                : "linear-gradient(135deg, #0284c7, #6366f1)",
+                ? "linear-gradient(135deg, #C46A3C, #e39b76)"
+                : "linear-gradient(135deg, #C46A3C, #e39b76)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
               backgroundClip: "text", display: "inline-block", transform: "translateZ(0)",
             }}>Activity</span>
@@ -161,7 +161,7 @@ export default function Code({ darkMode }) {
             <a
               href={`https://github.com/${GITHUB_USER}`}
               target="_blank" rel="noreferrer"
-              style={{ color: dk ? "#38bdf8" : "#0284c7", textDecoration: "none" }}
+              style={{ color: "#C46A3C", textDecoration: "none" }}
             >
               View profile directly ↗
             </a>
@@ -187,7 +187,7 @@ export default function Code({ darkMode }) {
                     alt="GitHub avatar"
                     style={{
                       width: 56, height: 56, borderRadius: 14,
-                      border: dk ? "2px solid rgba(56,189,248,0.3)" : "2px solid rgba(2,132,199,0.2)",
+                      border: dk ? "2px solid rgba(196,106,60,0.3)" : "2px solid rgba(196,106,60,0.2)",
                     }}
                   />
                   <div>
@@ -202,7 +202,7 @@ export default function Code({ darkMode }) {
                       target="_blank" rel="noreferrer"
                       style={{
                         fontFamily: "monospace", fontSize: 11,
-                        color: dk ? "#22d3ee" : "#0e7490", textDecoration: "none",
+                        color: "#C46A3C", textDecoration: "none",
                       }}
                     >
                       @{profile.login} ↗
@@ -254,7 +254,7 @@ export default function Code({ darkMode }) {
                     <span style={{ fontSize: 22 }}>{stat.icon}</span>
                     <span style={{
                       fontFamily: "'Syne', monospace", fontWeight: 900, fontSize: 24,
-                      background: "linear-gradient(135deg, #38bdf8, #818cf8)",
+                      background: "linear-gradient(135deg, #C46A3C, #e39b76)",
                       WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
                       backgroundClip: "text", display: "inline-block", transform: "translateZ(0)",
                     }}>
@@ -276,7 +276,7 @@ export default function Code({ darkMode }) {
             <div style={{ ...cardStyle, padding: 24 }}>
               <span style={{
                 fontFamily: "monospace", fontSize: 11,
-                color: dk ? "#22d3ee" : "#0e7490",
+                color: "#C46A3C",
                 letterSpacing: "0.1em", textTransform: "uppercase",
                 display: "block", marginBottom: 16,
               }}>
@@ -284,7 +284,7 @@ export default function Code({ darkMode }) {
               </span>
               <div style={{ overflowX: "auto" }}>
                 <img
-                  src={`https://ghchart.rshah.org/${dk ? "38bdf8" : "0284c7"}/${GITHUB_USER}`}
+                  src={`https://ghchart.rshah.org/${dk ? "C46A3C" : "C46A3C"}/${GITHUB_USER}`}
                   alt="GitHub contribution chart"
                   style={{ width: "100%", minWidth: 500, borderRadius: 8, display: "block" }}
                 />
@@ -303,7 +303,7 @@ export default function Code({ darkMode }) {
               <div>
                 <span style={{
                   fontFamily: "monospace", fontSize: 11,
-                  color: dk ? "#22d3ee" : "#0e7490",
+                  color: "#C46A3C",
                   letterSpacing: "0.1em", textTransform: "uppercase",
                   display: "block", marginBottom: 16,
                 }}>
@@ -327,7 +327,7 @@ export default function Code({ darkMode }) {
                       }}
                       onMouseEnter={e => {
                         e.currentTarget.style.transform = "translateY(-4px)";
-                        e.currentTarget.style.borderColor = dk ? "rgba(56,189,248,0.2)" : "rgba(2,132,199,0.2)";
+                        e.currentTarget.style.borderColor = dk ? "rgba(196,106,60,0.2)" : "rgba(196,106,60,0.2)";
                         e.currentTarget.style.boxShadow = dk
                           ? "0 20px 40px rgba(0,0,0,0.5)"
                           : "0 16px 40px rgba(100,116,139,0.18)";
@@ -406,12 +406,12 @@ export default function Code({ darkMode }) {
                   padding: "12px 28px", borderRadius: 10,
                   fontFamily: "monospace", fontSize: 13, fontWeight: 700,
                   textDecoration: "none",
-                  border: dk ? "1px solid rgba(56,189,248,0.25)" : "1px solid rgba(2,132,199,0.3)",
-                  color: dk ? "#38bdf8" : "#0284c7",
+                  border: "1px solid rgba(196,106,60,0.25)",
+                  color: "#C46A3C",
                   background: "transparent", transition: "all 0.3s",
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.background = dk ? "rgba(56,189,248,0.08)" : "rgba(2,132,199,0.06)";
+                  e.currentTarget.style.background = "rgba(196,106,60,0.08)";
                   e.currentTarget.style.transform = "scale(1.04)";
                 }}
                 onMouseLeave={e => {
