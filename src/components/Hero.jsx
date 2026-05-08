@@ -63,6 +63,7 @@ const CSS = `
     min-height: calc(100vh - 64px);
     font-family: 'Syne', sans-serif;
     color: #fff;
+    padding-top: 70px;
     overflow-x: hidden;
     position: relative;
   }
@@ -90,7 +91,7 @@ const CSS = `
 
   .hero__photo {
     width: 100%;
-    height: min(72vh, 640px);
+    height: min(78vh, 720px);
     object-fit: cover;
     object-position: center;
     display: block;
@@ -286,7 +287,7 @@ const CSS = `
     .hero__heading {
       order: 1;
       width: 100%;
-      font-size: clamp(28px, 9vw, 52px);
+      font-size: clamp(26px, 8.5vw, 48px);
       line-height: 1.04;
       letter-spacing: -0.055em;
       margin-bottom: 0;
@@ -307,7 +308,7 @@ const CSS = `
       width: 100%;
       height: auto;
       max-height: none;
-      aspect-ratio: 1 / 1.23;
+      aspect-ratio: 1 / 1.08;
       object-fit: cover;
       object-position: center top;
       border-radius: 14px;
@@ -361,7 +362,7 @@ const CSS = `
     }
 
     .hero__heading {
-      font-size: clamp(24px, 10vw, 42px);
+      font-size: clamp(22px, 10vw, 34px);
       line-height: 1.08;
     }
 

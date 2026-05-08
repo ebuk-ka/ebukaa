@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
 // Dark navbar — blends with #2D1F1F hero
 // Working hamburger, smooth dropdown, fully responsive
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
@@ -23,12 +23,17 @@ const CSS = `
     font-family: 'DM Sans', sans-serif;
     background: var(--nav-bg);
     border-bottom: 1px solid var(--nav-border);
-    position: sticky;
+    position: fixed;
+    left: 0;
     top: 0;
     z-index: 100;
     width: 100%;
-    transition: box-shadow 0.3s, background 0.3s;
+    transition: transform 0.25s ease, box-shadow 0.3s, background 0.3s;
     backdrop-filter: blur(20px);
+  }
+
+  .en-nav.hidden {
+    transform: translateY(-120%);
   }
   .en-nav.scrolled {
     background: rgba(30,18,18,0.95);
@@ -385,6 +390,41 @@ export default function Navbar({
 }) {
   const [open,     setOpen]     = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showNav,  setShowNav]  = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 860px)");
+    const updateNav = () => {
+      const currentY = window.scrollY;
+      const isMobile = mobileQuery.matches;
+
+      if (!isMobile || open || currentY <= 0) {
+        setShowNav(true);
+        lastScrollY.current = currentY;
+        return;
+      }
+
+      if (currentY > lastScrollY.current + 10) {
+        setShowNav(false);
+      } else if (currentY < lastScrollY.current - 10) {
+        setShowNav(true);
+      }
+      lastScrollY.current = currentY;
+    };
+
+    const onScroll = () => updateNav();
+    const onResize = () => {
+      if (!mobileQuery.matches) setShowNav(true);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [open]);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 10);
@@ -408,7 +448,7 @@ export default function Navbar({
     <>
       <style>{CSS}</style>
       <header>
-        <nav className={`en-nav${scrolled ? " scrolled" : ""}`}>
+        <nav className={`en-nav${scrolled ? " scrolled" : ""}${!showNav ? " hidden" : ""}`}>
           <div className="en-nav__inner">
 
             {/* Logo */}
