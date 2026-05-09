@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import TechStack from "./components/TechStack";
-import Project from "./components/Projects";
-import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Projects from "./pages/Projects";
 
 
 export default function App() {
@@ -19,13 +18,17 @@ export default function App() {
   }, [darkMode]);
 
   return (
-    <div style={{ minHeight: "100vh", background: darkMode ? "#060912" : "#eef2ff", transition: "background 0.5s" }}>
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-      <Hero   darkMode={darkMode} />
-      <About darkMode={darkMode} />
-      <TechStack />
-      <Project darkMode={darkMode}/>
-       <Contact darkMode={darkMode}/>
-    </div>
+    <BrowserRouter>
+      <div style={{ minHeight: "100vh", background: darkMode ? "#060912" : "#eef2ff", transition: "background 0.5s" }}>
+        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <Routes>
+          <Route path="/" element={<Home darkMode={darkMode} />} />
+          <Route path="/projects" element={<Projects />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
+
+

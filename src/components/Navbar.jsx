@@ -387,7 +387,7 @@ function LinkedInIcon() {
 }
 
 const NAV_LINKS = [
-  { href: "#projects", label: "Projects"      },
+  { href: "/projects", label: "Projects"      },
   { href: "#work",     label: "Let's Work", pill: true },
   { href: "#skills",   label: "Skills & Tools" },
   { href: "#contact",  label: "Contact"       },
