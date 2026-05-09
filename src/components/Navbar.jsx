@@ -250,6 +250,17 @@ const CSS = `
 
   /* ── Mobile menu ── */
   .en-mobile {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  background: #1e1212;
+  border-top: 1px solid var(--nav-border);
+  transition: max-height 0.44s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
     overflow: hidden;
     max-height: 0;
     opacity: 0;
@@ -495,7 +506,10 @@ export default function Navbar({
               {/* Hamburger → X */}
               <button
                 className={`en-ham${open ? " open" : ""}`}
-                onClick={() => setOpen(p => !p)}
+                  onClick={() => {
+                   setShowNav(true);
+                   setOpen((p) => !p);
+                 }}
                 aria-label={open ? "Close menu" : "Open menu"}
                 aria-expanded={open}>
                 <div className="en-ham__bar" />

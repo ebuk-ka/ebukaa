@@ -3,7 +3,6 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import TechStack from "./components/TechStack";
-import Skills from "./components/Skills";
 import Project from "./components/Projects";
 import Contact from "./components/Contact";
 
@@ -25,7 +24,6 @@ export default function App() {
       <Hero   darkMode={darkMode} />
       <About darkMode={darkMode} />
       <TechStack />
-      <Skills darkMode={darkMode}/>
       <Project darkMode={darkMode}/>
        <Contact darkMode={darkMode}/>
     </div>

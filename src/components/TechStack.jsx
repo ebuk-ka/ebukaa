@@ -7,11 +7,16 @@ import {
   FaFigma,
 } from "react-icons/fa";
 
+import { VscVscode } from "react-icons/vsc";
+
 import {
   SiJavascript,
   SiSupabase,
   SiTailwindcss,
+  SiPostgresql,
 } from "react-icons/si";
+
+import { useEffect, useRef, useState } from "react";
 
 const stack = [
   {
@@ -35,12 +40,20 @@ const stack = [
     icon: <SiSupabase />,
   },
   {
+    name: "PostgreSQL",
+    icon: <SiPostgresql />,
+  },
+  {
     name: "Git",
     icon: <FaGitAlt />,
   },
   {
     name: "GitHub",
     icon: <FaGithub />,
+  },
+  {
+    name: "VS Code",
+    icon: <VscVscode />,
   },
   {
     name: "Figma",
@@ -51,14 +64,12 @@ const stack = [
     icon: <SiTailwindcss />,
   },
 ];
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap');
 
+const CSS = `
 .tech-stack-section {
   background: #2D1F1F;
   padding: 120px 24px;
   overflow: hidden;
-  font-family: 'Syne', sans-serif;
 }
 
 .tech-stack-container {
@@ -115,11 +126,25 @@ const CSS = `
   flex-direction: column;
   justify-content: space-between;
 
-  transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
 
   backdrop-filter: blur(10px);
+
+  opacity: 0;
+  transform: translateY(55px);
+}
+
+.tech-stack-section.show .tech-card {
+  animation: stackAscend 0.75s ease forwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes stackAscend {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tech-card::before {
@@ -203,40 +228,79 @@ const CSS = `
   .stack-desc {
     font-size: 16px;
   }
-} `
+}
+`;
 
 export default function TechStack() {
+
+  const [visible, setVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+        }
+      },
+      {
+        threshold: 0.2,
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+
+  }, []);
+
   return (
     <>
       <style>{CSS}</style>
-      <section className="tech-stack-section" id="skills">
-      <div className="tech-stack-container">
 
-        <div className="tech-stack-top">
-          <p className="stack-mini">MY STACK</p>
+      <section
+        ref={sectionRef}
+        className={`tech-stack-section ${visible ? "show" : ""}`}
+        id="skills"
+      >
+        <div className="tech-stack-container">
 
-          <h2>
-            Top Languages <span>& Technologies</span>
-          </h2>
+          <div className="tech-stack-top">
+            <p className="stack-mini">MY STACK</p>
 
-          <p className="stack-desc">
-            My go-to tools for building premium, scalable and modern web experiences.
-          </p>
-        </div>
+            <h2>
+              Top Languages <span>& Technologies</span>
+            </h2>
 
-        <div className="tech-grid">
-          {stack.map((item, index) => (
-            <div className="tech-card" key={index}>
-              <div className="tech-icon">
-                {item.icon}
+            <p className="stack-desc">
+              My go-to tools for building premium, scalable and modern web experiences.
+            </p>
+          </div>
+
+          <div className="tech-grid">
+
+            {stack.map((item, index) => (
+              <div
+                className="tech-card"
+                key={index}
+                style={{
+                  "--delay": `${index * 0.08}s`,
+                }}
+              >
+                <div className="tech-icon">
+                  {item.icon}
+                </div>
+
+                <h3>{item.name}</h3>
               </div>
+            ))}
 
-              <h3>{item.name}</h3>
-            </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }
