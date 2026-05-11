@@ -1,6 +1,6 @@
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { useEffect, useRef, useState } from "react";
 import kravelyImg from "../assets/images/kravely.png";
 import portfolioImg from "../assets/images/hairtopia.jpeg";
 import businessImg from "../assets/images/movietrailer.jpeg";
@@ -12,23 +12,23 @@ const projects = [
     desc: "A FUTO-focused food ordering platform built for students, vendors and riders with ordering, vendor listings and delivery flow.",
     image: kravelyImg,
     tags: ["React", "Supabase", "Tailwind", "Food Tech"],
-    link: "/kravely",
+    link: "https://kravely-qc1s.vercel.app/",
   },
   {
-    title: "Developer Portfolio",
-    type: "Personal Brand Website",
-    desc: "A clean and modern portfolio built to present my skills, projects and services as a fullstack developer.",
+    title: "HairTopia",
+    type: "Personal Hair Website",
+    desc: "A clean and modern hair website for easu bookings and easy orders.",
     image: portfolioImg,
     tags: ["React", "CSS", "Responsive"],
-    link: "/",
+    link: "https://hairtopiang.shop",
   },
   {
-    title: "Business Website Demo",
-    type: "Client Website",
-    desc: "A premium business website concept for brands that need stronger online presence, better trust and more conversions.",
+    title: "Movie Trailer Website",
+    type: "Movie Trailer Website",
+    desc: "A movie website where users can watch their trailer",
     image: businessImg,
-    tags: ["UI Design", "Landing Page", "Business"],
-    link: "#",
+    tags: ["UI Design", "Landing Page", "Movie trailer"],
+    link: "https://movietrailerrr.netlify.app/",
   },
 ];
 
@@ -107,7 +107,7 @@ const CSS = `
 
 .project-image-wrap {
   width: 100%;
-  height: 390px;
+  min-height: 390px;
   border-radius: 26px;
   overflow: hidden;
   background: rgba(255,255,255,.05);
@@ -243,9 +243,56 @@ const CSS = `
     font-size: 14px;
   }
 }
+  .project-card {
+  opacity: 0;
+  transform: translateY(70px);
+}
+
+.show-projects .project-card {
+  animation: projectReveal 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes projectReveal {
+
+  0% {
+    opacity: 0;
+    transform: translateY(70px) scale(.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 `;
 
 export default function Projects() {
+  const [visible, setVisible] = useState(false);
+
+const sectionRef = useRef(null);
+
+useEffect(() => {
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true);
+      }
+    },
+    {
+      threshold: 0.15,
+    }
+  );
+
+  if (sectionRef.current) {
+    observer.observe(sectionRef.current);
+  }
+
+  return () => observer.disconnect();
+
+}, []);
+
   return (
     <>
       <style>{CSS}</style>
@@ -269,9 +316,20 @@ export default function Projects() {
             </p>
           </header>
 
-          <section className="projects-list">
-            {projects.map((project) => (
-              <a href={project.link} className="project-card" key={project.title}>
+          <section
+            className={`projects-list ${visible ? "show-projects" : ""}`}
+            ref={sectionRef}
+          >
+            {projects.map((project, index) => (
+              <a
+                 href={project.link}
+                 target="_blank"
+                 rel="noreferrer"
+                 className="project-card"
+                 style={{
+                   "--delay": `${index * 0.12}s`,
+                 }}
+               >
                 <div className="project-image-wrap">
                   <img
                     src={project.image}
