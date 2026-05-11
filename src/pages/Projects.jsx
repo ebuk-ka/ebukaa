@@ -1,7 +1,7 @@
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import kravelyImg from "../assets/images/kravely.png";
+import kravelyImg from "../assets/images/Kravely.png";
 import portfolioImg from "../assets/images/hairtopia.jpeg";
 import businessImg from "../assets/images/movietrailer.jpeg";
 
