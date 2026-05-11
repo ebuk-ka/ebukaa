@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
-// Dark navbar — blends with #2D1F1F hero
-// Working hamburger, smooth dropdown, fully responsive
+
 import { useState, useEffect, useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
@@ -9,16 +9,14 @@ const CSS = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --nav-bg:     rgba(45,31,31,0.88);
+    --nav-bg: rgba(45,31,31,0.88);
     --nav-border: rgba(255,255,255,0.08);
-    --accent:     #C46A3C;
-    --accent-soft: rgba(196,106,60,0.17);
-    --text:       #f0e8e4;
-    --text-mid:   #d4c4be;
+    --accent: #C46A3C;
+    --text: #f0e8e4;
+    --text-mid: #d4c4be;
     --text-muted: #7a6056;
   }
 
-  /* ── Shell ── */
   .en-nav {
     font-family: 'DM Sans', sans-serif;
     background: var(--nav-bg);
@@ -35,6 +33,7 @@ const CSS = `
   .en-nav.hidden {
     transform: translateY(-120%);
   }
+
   .en-nav.scrolled {
     background: rgba(30,18,18,0.95);
     box-shadow: 0 2px 28px rgba(0,0,0,0.35);
@@ -49,7 +48,6 @@ const CSS = `
     align-items: center;
   }
 
-  /* ── Logo ── */
   .en-logo {
     display: flex;
     align-items: center;
@@ -58,6 +56,7 @@ const CSS = `
     flex-shrink: 0;
     margin-right: 28px;
   }
+
   .en-logo__mark {
     width: 34px;
     height: 34px;
@@ -66,30 +65,28 @@ const CSS = `
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     box-shadow: 0 0 0 3px rgba(196,106,60,0.18);
   }
+
   .en-logo__mark span {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
     font-size: 17px;
     color: #000;
-    line-height: 1;
-    letter-spacing: -0.5px;
   }
+
   .en-logo__text {
     font-family: 'Syne', sans-serif;
     font-size: 16px;
     font-weight: 700;
     color: var(--text);
-    letter-spacing: -0.3px;
   }
+
   .en-logo__text em {
     font-style: normal;
     color: #C46A3C;
   }
 
-  /* ── Desktop links ── */
   .en-links {
     display: flex;
     align-items: center;
@@ -104,22 +101,15 @@ const CSS = `
     text-decoration: none;
     padding: 7px 13px;
     border-radius: 10px;
-    transition: color 0.16s, background 0.16s;
+    transition: 0.16s;
     white-space: nowrap;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 6px;
   }
+
   .en-link:hover {
     color: var(--text);
     background: rgba(255,255,255,0.06);
   }
 
-  /* Work pill */
   .en-link--pill {
     background: rgba(196,106,60,0.15);
     border: 1px solid rgba(196,106,60,0.22);
@@ -127,87 +117,52 @@ const CSS = `
     color: #C46A3C;
     padding: 6px 14px 6px 11px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
-  .en-link--pill:hover {
-    background: rgba(196,106,60,0.22);
-    color: #C46A3C;
-  }
+
   .en-pill-dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: #C46A3C;
-    flex-shrink: 0;
   }
 
-  /* Separator */
   .en-sep {
     width: 3px;
     height: 3px;
     border-radius: 50%;
     background: var(--text-muted);
-    flex-shrink: 0;
     margin: 0 6px;
   }
 
-  /* Availability badge */
-  .en-avail {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(196,106,60,0.08);
-    border: 1px solid rgba(196,106,60,0.16);
-    border-radius: 999px;
-    padding: 5px 13px 5px 10px;
-    margin-left: 14px;
-    white-space: nowrap;
-  }
-  .en-avail__dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #C46A3C;
-    flex-shrink: 0;
-    animation: avail-pulse 2.2s ease infinite;
-  }
-  @keyframes avail-pulse {
-    0%,100% { box-shadow: 0 0 0 0   rgba(196,106,60,0.45); }
-    50%      { box-shadow: 0 0 0 5px rgba(196,106,60,0);    }
-  }
-  .en-avail__text {
-    font-size: 12px;
-    font-weight: 600;
-    color: #C46A3C;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  /* ── Right icons ── */
   .en-right {
     display: flex;
     align-items: center;
     gap: 4px;
     margin-left: auto;
-    flex-shrink: 0;
   }
+
   .en-icon-btn {
     background: none;
     border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: var(--text-mid);
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    transition: background 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.15s;
   }
+
   .en-icon-btn:hover {
     background: rgba(255,255,255,0.08);
     color: var(--text);
   }
 
-  /* ── Hamburger ── */
   .en-ham {
     display: none;
     flex-direction: column;
@@ -217,50 +172,41 @@ const CSS = `
     border: none;
     padding: 8px;
     border-radius: 10px;
-    transition: background 0.15s;
     margin-left: 6px;
   }
-  .en-ham:hover { background: rgba(255,255,255,0.08); }
 
   .en-ham__bar {
     height: 2px;
     background: var(--text);
     border-radius: 2px;
-    transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
-                opacity 0.22s, width 0.28s;
-    transform-origin: center;
+    transition: 0.3s ease;
   }
+
   .en-ham__bar:nth-child(1) { width: 13px; }
   .en-ham__bar:nth-child(2) { width: 22px; }
   .en-ham__bar:nth-child(3) { width: 17px; }
 
-  /* X state */
   .en-ham.open .en-ham__bar:nth-child(1) {
     width: 20px;
     transform: translateY(7px) rotate(45deg);
   }
+
   .en-ham.open .en-ham__bar:nth-child(2) {
     opacity: 0;
     transform: scaleX(0);
   }
+
   .en-ham.open .en-ham__bar:nth-child(3) {
     width: 20px;
     transform: translateY(-7px) rotate(-45deg);
   }
 
-  /* ── Mobile menu ── */
   .en-mobile {
-  position: fixed;
-  top: 64px;
-  left: 0;
-  width: 100%;
-  z-index: 99;
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  background: #1e1212;
-  border-top: 1px solid var(--nav-border);
-  transition: max-height 0.44s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    z-index: 99;
     overflow: hidden;
     max-height: 0;
     opacity: 0;
@@ -268,6 +214,7 @@ const CSS = `
     border-top: 1px solid var(--nav-border);
     transition: max-height 0.44s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
   }
+
   .en-mobile.open {
     max-height: 500px;
     opacity: 1;
@@ -279,7 +226,6 @@ const CSS = `
     padding: 22px 28px 32px;
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
 
   .en-mobile__link {
@@ -290,35 +236,35 @@ const CSS = `
     font-size: 24px;
     font-weight: 700;
     color: var(--text);
-    text-decoration: none;
     padding: 14px 0;
     border-bottom: 1px solid rgba(255,255,255,0.06);
-    letter-spacing: -0.5px;
-    transition: color 0.15s, padding-left 0.2s;
-    cursor: pointer;
     background: none;
+    border-left: none;
     border-right: none;
     border-top: none;
-    border-left: none;
     width: 100%;
+    cursor: pointer;
     text-align: left;
   }
-  .en-mobile__link:last-of-type { border-bottom: none; }
-  .en-mobile__link:hover {
-    color: var(--green);
-    padding-left: 6px;
-  }
-  .en-mobile__link .arrow {
-    font-size: 20px;
-    opacity: 0.3;
-    transition: opacity 0.15s, transform 0.2s;
-  }
-  .en-mobile__link:hover .arrow {
-    opacity: 0.7;
-    transform: translate(3px, -3px);
+
+  .en-mobile__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(196,106,60,0.12);
+    color: #C46A3C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s ease;
   }
 
-  /* Social row in mobile */
+  .en-mobile__link:hover .en-mobile__icon {
+    transform: translate(3px, -3px);
+    background: #C46A3C;
+    color: #111;
+  }
+
   .en-mobile__socials {
     display: flex;
     gap: 10px;
@@ -327,6 +273,7 @@ const CSS = `
     border-top: 1px solid rgba(255,255,255,0.06);
     flex-wrap: wrap;
   }
+
   .en-mobile__soc {
     display: flex;
     align-items: center;
@@ -336,29 +283,20 @@ const CSS = `
     border-radius: 10px;
     padding: 9px 14px;
     color: var(--text-mid);
-    font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 600;
-    cursor: pointer;
     text-decoration: none;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-  }
-  .en-mobile__soc:hover {
-    background: rgba(34,197,94,0.12);
-    color: var(--green);
-    border-color: rgba(34,197,94,0.22);
   }
 
-  /* ── Responsive ── */
   @media (max-width: 860px) {
     .en-links { display: none; }
-    .en-avail { display: none; }
-    .en-ham   { display: flex; }
+    .en-ham { display: flex; }
   }
+
   @media (max-width: 480px) {
     .en-nav__inner { padding: 0 16px; }
     .en-mobile__inner { padding: 16px 16px 28px; }
-    .en-mobile__link  { font-size: 21px; }
+    .en-mobile__link { font-size: 21px; }
   }
 `;
 
@@ -377,38 +315,41 @@ function XIcon() {
     </svg>
   );
 }
-
 function LinkedInIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7 0h3.8v2.2h.1c.5-.9 1.8-2.2 3.8-2.2 4.1 0 4.8 2.7 4.8 6.3V24h-4v-7.1c0-1.7 0-3.9-2.4-3.9s-2.8 1.8-2.8 3.8V24h-4V8z"/>
     </svg>
   );
 }
 
 const NAV_LINKS = [
-  { href: "/projects", label: "Projects"      },
-  { href: "#work",     label: "Let's Work", pill: true },
-  { href: "#skills",   label: "Skills & Tools" },
-  { href: "#contact",  label: "Contact"       },
+  { href: "/projects", label: "Projects" },
+  { href: "#work", label: "Let's Work", pill: true },
+  { href: "#skills", label: "Skills & Tools" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export default function Navbar({
-  name          = "Ebuka Okolo",
-  githubUrl     = "https://github.com",
-  twitterUrl    = "https://x.com",
-  linkedinUrl   = "https://linkedin.com",
+  name = "Ebuka Okolo",
+  githubUrl = "https://github.com/EbukaOkolo",
+  twitterUrl = "https://x.com/@ebv_ka",
+  linkedinUrl = "https://www.linkedin.com/in/ebuka-okolo-2022b0380/",
 }) {
-  const [open,     setOpen]     = useState(false);
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showNav,  setShowNav]  = useState(true);
+  const [showNav, setShowNav] = useState(true);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const mobileQuery = window.matchMedia("(max-width: 860px)");
     const updateNav = () => {
       const currentY = window.scrollY;
-      const isMobile = mobileQuery.matches;
+      const isMobile = window.matchMedia("(max-width: 860px)").matches;
 
       if (!isMobile || open || currentY <= 0) {
         setShowNav(true);
@@ -416,25 +357,14 @@ export default function Navbar({
         return;
       }
 
-      if (currentY > lastScrollY.current + 10) {
-        setShowNav(false);
-      } else if (currentY < lastScrollY.current - 10) {
-        setShowNav(true);
-      }
+      if (currentY > lastScrollY.current + 10) setShowNav(false);
+      else if (currentY < lastScrollY.current - 10) setShowNav(true);
+
       lastScrollY.current = currentY;
     };
 
-    const onScroll = () => updateNav();
-    const onResize = () => {
-      if (!mobileQuery.matches) setShowNav(true);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
-    };
+    window.addEventListener("scroll", updateNav, { passive: true });
+    return () => window.removeEventListener("scroll", updateNav);
   }, [open]);
 
   useEffect(() => {
@@ -445,24 +375,26 @@ export default function Navbar({
 
   const handleMobileNav = (href) => {
     setOpen(false);
+
     if (href.startsWith("#")) {
       setTimeout(() => {
         document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-      }, 320); // let menu close first
+      }, 300);
+    } else {
+      window.location.href = href;
     }
   };
 
   const firstName = name.split(" ")[0].toLowerCase();
-  const lastName  = name.split(" ")[1]?.toLowerCase() || "";
+  const lastName = name.split(" ")[1]?.toLowerCase() || "";
 
   return (
     <>
       <style>{CSS}</style>
+
       <header>
         <nav className={`en-nav${scrolled ? " scrolled" : ""}${!showNav ? " hidden" : ""}`}>
           <div className="en-nav__inner">
-
-            {/* Logo */}
             <a href="/" className="en-logo">
               <div className="en-logo__mark">
                 <span>{name[0]}</span>
@@ -472,46 +404,40 @@ export default function Navbar({
               </span>
             </a>
 
-            {/* Desktop links */}
             <div className="en-links">
               {NAV_LINKS.map((link, i) => (
                 <span key={link.href} style={{ display: "flex", alignItems: "center" }}>
                   {i === 2 && <div className="en-sep" />}
-                  {link.pill ? (
-                    <a href={link.href} className="en-link en-link--pill">
-                      <div className="en-pill-dot" />
-                      {link.label}
-                    </a>
-                  ) : (
-                    <a href={link.href} className="en-link">{link.label}</a>
-                  )}
+                  <a href={link.href} className={`en-link ${link.pill ? "en-link--pill" : ""}`}>
+                    {link.pill && <div className="en-pill-dot" />}
+                    {link.label}
+                  </a>
                 </span>
               ))}
-
-        
             </div>
 
-            {/* Right: social + hamburger */}
             <div className="en-right">
-              <button className="en-icon-btn" onClick={() => window.open(githubUrl, "_blank")} aria-label="GitHub">
+              <button className="en-icon-btn" onClick={() => window.open(githubUrl, "_blank")}>
                 <GithubIcon />
               </button>
-              <button className="en-icon-btn" onClick={() => window.open(twitterUrl, "_blank")} aria-label="Twitter">
+
+              <button className="en-icon-btn" onClick={() => window.open(twitterUrl, "_blank")}>
                 <XIcon />
               </button>
-              <button className="en-icon-btn" onClick={() => window.open(linkedinUrl, "_blank")} aria-label="LinkedIn">
+
+              <button className="en-icon-btn" onClick={() => window.open(linkedinUrl, "_blank")}>
                 <LinkedInIcon />
               </button>
 
-              {/* Hamburger → X */}
               <button
                 className={`en-ham${open ? " open" : ""}`}
-                  onClick={() => {
-                   setShowNav(true);
-                   setOpen((p) => !p);
-                 }}
+                onClick={() => {
+                  setShowNav(true);
+                  setOpen((p) => !p);
+                }}
                 aria-label={open ? "Close menu" : "Open menu"}
-                aria-expanded={open}>
+                aria-expanded={open}
+              >
                 <div className="en-ham__bar" />
                 <div className="en-ham__bar" />
                 <div className="en-ham__bar" />
@@ -520,23 +446,34 @@ export default function Navbar({
           </div>
         </nav>
 
-        {/* Mobile dropdown */}
-        <div className={`en-mobile${open ? " open" : ""}`} aria-hidden={!open}>
+        <div className={`en-mobile${open ? " open" : ""}`}>
           <div className="en-mobile__inner">
-            {NAV_LINKS.map(link => (
+            {NAV_LINKS.map((link) => (
               <button
                 key={link.href}
                 className="en-mobile__link"
-                onClick={() => handleMobileNav(link.href)}>
+                onClick={() => handleMobileNav(link.href)}
+              >
                 {link.label}
-                <span className="arrow">↗</span>
+
+                <span className="en-mobile__icon">
+                  <ArrowUpRight size={18} strokeWidth={2.5} />
+                </span>
               </button>
             ))}
 
             <div className="en-mobile__socials">
-              <a href={githubUrl}   target="_blank" rel="noreferrer" className="en-mobile__soc"><GithubIcon />  GitHub</a>
-              <a href={twitterUrl}  target="_blank" rel="noreferrer" className="en-mobile__soc"><XIcon />       Twitter</a>
-              <a href={linkedinUrl} target="_blank" rel="noreferrer" className="en-mobile__soc"><LinkedInIcon /> LinkedIn</a>
+              <a href={githubUrl} target="_blank" rel="noreferrer" className="en-mobile__soc">
+                <GithubIcon /> GitHub
+              </a>
+
+              <a href={twitterUrl} target="_blank" rel="noreferrer" className="en-mobile__soc">
+                <XIcon /> Twitter
+              </a>
+
+              <a href={linkedinUrl} target="_blank" rel="noreferrer" className="en-mobile__soc">
+                <LinkedInIcon /> LinkedIn
+              </a>
             </div>
           </div>
         </div>

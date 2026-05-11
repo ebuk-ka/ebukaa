@@ -100,13 +100,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-links">
-
-            <a
-              href="https://github.com/EbukaOkolo"
-              target="_blank"
-              rel="noreferrer"
-              className="footer-link"
-            >
+             <a href="#">
               <ArrowUpRight size={18} />
             </a>
 
