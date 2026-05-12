@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
@@ -345,6 +346,7 @@ export default function Navbar({
   const [scrolled, setScrolled] = useState(false);
   const [showNav, setShowNav] = useState(true);
   const lastScrollY = useRef(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updateNav = () => {
@@ -373,17 +375,25 @@ export default function Navbar({
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const handleMobileNav = (href) => {
-    setOpen(false);
+   const handleMobileNav = (href) => {
+  setOpen(false);
 
-    if (href.startsWith("#")) {
-      setTimeout(() => {
-        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    } else {
-      window.location.href = href;
-    }
-  };
+  if (href.startsWith("#")) {
+
+    setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 300);
+
+  } else {
+
+    setTimeout(() => {
+      navigate(href);
+    }, 300);
+
+  }
+};
 
   const firstName = name.split(" ")[0].toLowerCase();
   const lastName = name.split(" ")[1]?.toLowerCase() || "";
