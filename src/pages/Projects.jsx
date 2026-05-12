@@ -116,8 +116,9 @@ const CSS = `
 .project-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   transition: .6s ease;
+   object-fit: contain;
+  object-position: center;
 }
 
 .project-card:hover .project-image {
@@ -211,8 +212,15 @@ const CSS = `
   }
 
   .project-image-wrap {
-    height: 320px;
-  }
+  height: auto;
+  min-height: 230px;
+  padding: 12px;
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 }
 
 @media (max-width: 560px) {
