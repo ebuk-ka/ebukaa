@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 const CONTACTS = [
   {
@@ -227,7 +228,7 @@ export default function Contact() {
                   </p>
 
                   <div className="contact-arrow">
-                    ↗
+                    <ArrowUpRight size={18} />
                   </div>
 
                 </a>
