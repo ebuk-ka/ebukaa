@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import kravelyImg from "../assets/images/Kravely.png";
 import portfolioImg from "../assets/images/hairtopia.jpeg";
 import businessImg from "../assets/images/movietrailer.jpeg";
+import minivaultImg from "../assets/images/mini.png"
 
 const projects = [
   {
@@ -30,6 +31,14 @@ const projects = [
     tags: ["UI Design", "Landing Page", "Movie trailer"],
     link: "https://movietrailerrr.netlify.app/",
   },
+    {
+    title: "Mini-Vault",
+    type: "A fintech website",
+    desc: "An AI powered Vault app that helps users learn to save",
+    image: minivaultImg,
+    tags: ["UI Design", "Landing Page", "Movie trailer"],
+    link: "https://mini-vault-three.vercel.app/",
+  }
 ];
 
 const CSS = `
