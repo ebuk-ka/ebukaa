@@ -25,9 +25,12 @@ export default function App() {
           <Route path="/" element={<Home darkMode={darkMode} />} />
           <Route path="/projects" element={<Projects />} />
         </Routes>
+         
         <Footer />
       </div>
     </BrowserRouter>
+    
+    
   );
 }
 

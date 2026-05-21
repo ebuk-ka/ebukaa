@@ -19,50 +19,17 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 const stack = [
-  {
-    name: "React",
-    icon: <FaReact />,
-  },
-  {
-    name: "JavaScript",
-    icon: <SiJavascript />,
-  },
-  {
-    name: "HTML5",
-    icon: <FaHtml5 />,
-  },
-  {
-    name: "CSS3",
-    icon: <FaCss3Alt />,
-  },
-  {
-    name: "Supabase",
-    icon: <SiSupabase />,
-  },
-  {
-    name: "PostgreSQL",
-    icon: <SiPostgresql />,
-  },
-  {
-    name: "Git",
-    icon: <FaGitAlt />,
-  },
-  {
-    name: "GitHub",
-    icon: <FaGithub />,
-  },
-  {
-    name: "VS Code",
-    icon: <VscVscode />,
-  },
-  {
-    name: "Figma",
-    icon: <FaFigma />,
-  },
-  {
-    name: "Tailwind",
-    icon: <SiTailwindcss />,
-  },
+  { name: "React", icon: <FaReact />, type: "Frontend Library" },
+  { name: "JavaScript", icon: <SiJavascript />, type: "Programming Language" },
+  { name: "Tailwind", icon: <SiTailwindcss />, type: "CSS Framework" },
+  { name: "Supabase", icon: <SiSupabase />, type: "Backend & Auth" },
+  { name: "PostgreSQL", icon: <SiPostgresql />, type: "Database" },
+  { name: "HTML5", icon: <FaHtml5 />, type: "Structure" },
+  { name: "CSS3", icon: <FaCss3Alt />, type: "Styling" },
+  { name: "Git", icon: <FaGitAlt />, type: "Version Control" },
+  { name: "GitHub", icon: <FaGithub />, type: "Code Hosting" },
+  { name: "VS Code", icon: <VscVscode />, type: "Code Editor" },
+  { name: "Figma", icon: <FaFigma />, type: "Design Tool" },
 ];
 
 const CSS = `
@@ -78,13 +45,13 @@ const CSS = `
 }
 
 .tech-stack-top {
-  margin-bottom: 60px;
+  margin-bottom: 65px;
 }
 
 .stack-mini {
   color: #C46A3C;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 2px;
   margin-bottom: 18px;
 }
@@ -94,8 +61,9 @@ const CSS = `
   line-height: 0.95;
   color: #f5ece6;
   font-family: "Syne", sans-serif;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   max-width: 900px;
+  letter-spacing: -0.06em;
 }
 
 .tech-stack-top h2 span {
@@ -106,7 +74,7 @@ const CSS = `
   color: #bca9a1;
   font-size: 18px;
   max-width: 620px;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .tech-grid {
@@ -119,8 +87,9 @@ const CSS = `
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 28px;
-  padding: 42px 24px;
-  min-height: 220px;
+
+  padding: 34px 24px;
+  min-height: 210px;
 
   display: flex;
   flex-direction: column;
@@ -132,50 +101,74 @@ const CSS = `
   backdrop-filter: blur(10px);
 
   opacity: 0;
-  transform: translateY(55px);
+  transform: translateY(80px) scale(.94);
+  filter: blur(10px);
+
+  transition:
+    opacity .85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform .85s cubic-bezier(0.22, 1, 0.36, 1),
+    filter .85s ease,
+    border-color .35s ease,
+    background .35s ease;
 }
 
-.tech-stack-section.show .tech-card {
-  animation: stackAscend 0.75s ease forwards;
-  animation-delay: var(--delay);
-}
-
-@keyframes stackAscend {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.tech-card-show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition-delay: var(--delay);
 }
 
 .tech-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(196,106,60,0.12),
-    transparent
+
+  background: radial-gradient(
+    circle at top right,
+    rgba(196,106,60,0.18),
+    transparent 45%
   );
 
   opacity: 0;
-  transition: 0.4s ease;
+  transition: .4s ease;
+}
+
+.tech-card::after {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  right: -35px;
+  bottom: -35px;
+
+  background: rgba(196,106,60,0.08);
+  border-radius: 50%;
+
+  transition: .4s ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(196,106,60,0.38);
+  background: rgba(255,255,255,0.06);
 }
 
 .tech-card:hover::before {
   opacity: 1;
 }
 
-.tech-card:hover {
-  transform: translateY(-10px);
-  border-color: rgba(196,106,60,0.35);
+.tech-card:hover::after {
+  transform: scale(1.8);
 }
 
 .tech-icon {
-  width: 74px;
-  height: 74px;
+  width: 72px;
+  height: 72px;
   border-radius: 22px;
 
   background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
 
   display: flex;
   align-items: center;
@@ -184,16 +177,35 @@ const CSS = `
   font-size: 34px;
   color: #C46A3C;
 
-  margin-bottom: 38px;
+  position: relative;
+  z-index: 2;
 
-  border: 1px solid rgba(255,255,255,0.06);
+  transition: .35s ease;
 }
 
-.tech-card h3 {
+.tech-card:hover .tech-icon {
+  background: #C46A3C;
+  color: #111;
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.tech-info {
+  position: relative;
+  z-index: 2;
+}
+
+.tech-info h3 {
   color: #f5ece6;
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 800;
   font-family: "Syne", sans-serif;
+  margin-bottom: 8px;
+}
+
+.tech-info p {
+  color: #bca9a1;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 @media (max-width: 1000px) {
@@ -203,9 +215,12 @@ const CSS = `
 }
 
 @media (max-width: 640px) {
-
   .tech-stack-section {
     padding: 90px 18px;
+  }
+
+  .tech-stack-top {
+    margin-bottom: 42px;
   }
 
   .tech-grid {
@@ -215,14 +230,13 @@ const CSS = `
 
   .tech-card {
     min-height: 180px;
-    padding: 30px 20px;
+    padding: 28px 22px;
   }
 
   .tech-icon {
     width: 62px;
     height: 62px;
     font-size: 28px;
-    margin-bottom: 28px;
   }
 
   .stack-desc {
@@ -232,42 +246,40 @@ const CSS = `
 `;
 
 export default function TechStack() {
-
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const [visibleCards, setVisibleCards] = useState([]);
+  const cardRefs = useRef([]);
 
   useEffect(() => {
-
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.dataset.index);
+
+            setVisibleCards((prev) =>
+              prev.includes(index) ? prev : [...prev, index]
+            );
+          }
+        });
       },
       {
         threshold: 0.2,
       }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
 
     return () => observer.disconnect();
-
   }, []);
 
   return (
     <>
       <style>{CSS}</style>
 
-      <section
-        ref={sectionRef}
-        className={`tech-stack-section ${visible ? "show" : ""}`}
-        id="skills"
-      >
+      <section className="tech-stack-section" id="skills">
         <div className="tech-stack-container">
-
           <div className="tech-stack-top">
             <p className="stack-mini">MY STACK</p>
 
@@ -276,28 +288,32 @@ export default function TechStack() {
             </h2>
 
             <p className="stack-desc">
-              My go-to tools for building premium, scalable and modern web experiences.
+              My go-to tools for building premium, scalable and modern web
+              experiences.
             </p>
           </div>
 
           <div className="tech-grid">
-
             {stack.map((item, index) => (
               <div
-                className="tech-card"
-                key={index}
+                className={`tech-card ${
+                  visibleCards.includes(index) ? "tech-card-show" : ""
+                }`}
+                key={item.name}
+                ref={(el) => (cardRefs.current[index] = el)}
+                data-index={index}
                 style={{
-                  "--delay": `${index * 0.08}s`,
+                  "--delay": `${index * 0.07}s`,
                 }}
               >
-                <div className="tech-icon">
-                  {item.icon}
-                </div>
+                <div className="tech-icon">{item.icon}</div>
 
-                <h3>{item.name}</h3>
+                <div className="tech-info">
+                  <h3>{item.name}</h3>
+                  <p>{item.type}</p>
+                </div>
               </div>
             ))}
-
           </div>
         </div>
       </section>

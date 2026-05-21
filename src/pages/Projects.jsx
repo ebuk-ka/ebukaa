@@ -1,13 +1,15 @@
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+
 import kravelyImg from "../assets/images/Kravely.png";
 import portfolioImg from "../assets/images/hairtopia.jpeg";
 import businessImg from "../assets/images/movietrailer.jpeg";
-import minivaultImg from "../assets/images/mini.png"
+import minivaultImg from "../assets/images/mini.png";
 
 const projects = [
   {
+    id: "kravely",
     title: "Kravely",
     type: "Food Delivery Platform",
     desc: "A FUTO-focused food ordering platform built for students, vendors and riders with ordering, vendor listings and delivery flow.",
@@ -15,30 +17,36 @@ const projects = [
     tags: ["React", "Supabase", "Tailwind", "Food Tech"],
     link: "https://kravely-qc1s.vercel.app/",
   },
+
   {
+    id: "hairtopia",
     title: "HairTopia",
     type: "Personal Hair Website",
-    desc: "A clean and modern hair website for easu bookings and easy orders.",
+    desc: "A clean and modern hair website for easy bookings and easy orders.",
     image: portfolioImg,
     tags: ["React", "CSS", "Responsive"],
     link: "https://hairtopiang.shop",
   },
+
   {
+    id: "movie",
     title: "Movie Trailer Website",
     type: "Movie Trailer Website",
-    desc: "A movie website where users can watch their trailer",
+    desc: "A movie website where users can watch their trailer.",
     image: businessImg,
-    tags: ["UI Design", "Landing Page", "Movie trailer"],
+    tags: ["UI Design", "Landing Page", "Movie Trailer"],
     link: "https://movietrailerrr.netlify.app/",
   },
-    {
+
+  {
+    id: "mini",
     title: "Mini-Vault",
     type: "A fintech website",
-    desc: "An AI powered Vault app that helps users learn to save",
+    desc: "An AI powered Vault app that helps users learn to save.",
     image: minivaultImg,
-    tags: ["UI Design", "Landing Page", "Movie trailer"],
+    tags: ["UI Design", "Landing Page", "Fintech"],
     link: "https://mini-vault-three.vercel.app/",
-  }
+  },
 ];
 
 const CSS = `
@@ -54,8 +62,19 @@ const CSS = `
   margin: 0 auto;
 }
 
+/* HEADER */
+
 .projects-header {
   margin-bottom: 70px;
+}
+
+.projects-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+
+  margin-bottom: 26px;
 }
 
 .projects-mini {
@@ -86,6 +105,45 @@ const CSS = `
   max-width: 620px;
 }
 
+/* INSIDE NAV */
+
+.projects-nav-inside {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px;
+
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+
+  border-radius: 999px;
+
+  backdrop-filter: blur(14px);
+}
+
+.projects-nav-inside a {
+  color: #d9c8c1;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  padding: 12px 16px;
+  border-radius: 999px;
+
+  transition: .3s ease;
+}
+
+.projects-nav-inside a:hover {
+  background: #C46A3C;
+  color: #111;
+
+  transform: translateY(-2px);
+}
+
+/* PROJECTS */
+
 .projects-list {
   display: flex;
   flex-direction: column;
@@ -100,12 +158,30 @@ const CSS = `
 
   padding: 24px;
   border-radius: 34px;
+
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
+
   text-decoration: none;
   color: inherit;
   overflow: hidden;
+
   transition: .35s ease;
+
+  opacity: 0;
+  transform: translateY(90px) scale(0.96);
+  filter: blur(10px);
+}
+
+.project-card-show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.9s ease;
 }
 
 .project-card:hover {
@@ -117,17 +193,31 @@ const CSS = `
 .project-image-wrap {
   width: 100%;
   min-height: 390px;
+
   border-radius: 26px;
   overflow: hidden;
+
   background: rgba(255,255,255,.05);
+
+  transform: scale(0.94);
+  opacity: 0;
+
+  transition: 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card-show .project-image-wrap {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .project-image {
   width: 100%;
   height: 100%;
-  transition: .6s ease;
-   object-fit: contain;
+
+  object-fit: contain;
   object-position: center;
+
+  transition: .6s ease;
 }
 
 .project-card:hover .project-image {
@@ -136,6 +226,17 @@ const CSS = `
 
 .project-content {
   padding: 20px 12px;
+
+  opacity: 0;
+  transform: translateX(35px);
+
+  transition: 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 0.12s;
+}
+
+.project-card-show .project-content {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .project-type {
@@ -172,23 +273,56 @@ const CSS = `
 .project-tags span {
   font-size: 12px;
   color: #f5ece6;
+
   background: rgba(255,255,255,.07);
   border: 1px solid rgba(255,255,255,.08);
+
   padding: 8px 12px;
   border-radius: 999px;
+
+  opacity: 0;
+  transform: translateY(14px);
+
+  transition: 0.45s ease;
+}
+
+.project-card-show .project-tags span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card-show .project-tags span:nth-child(1) {
+  transition-delay: 0.22s;
+}
+
+.project-card-show .project-tags span:nth-child(2) {
+  transition-delay: 0.3s;
+}
+
+.project-card-show .project-tags span:nth-child(3) {
+  transition-delay: 0.38s;
+}
+
+.project-card-show .project-tags span:nth-child(4) {
+  transition-delay: 0.46s;
 }
 
 .project-btn {
   width: fit-content;
+
   display: inline-flex;
   align-items: center;
   gap: 10px;
+
   background: #C46A3C;
   color: #111;
+
   padding: 13px 18px;
   border-radius: 999px;
+
   font-weight: 800;
   font-size: 14px;
+
   font-family: "DM Sans", sans-serif;
 }
 
@@ -204,9 +338,12 @@ const CSS = `
   display: inline-flex;
   align-items: center;
   gap: 8px;
+
   margin-bottom: 50px;
+
   color: #bca9a1;
   text-decoration: none;
+
   font-size: 14px;
   font-weight: 700;
 }
@@ -215,24 +352,48 @@ const CSS = `
   color: #C46A3C;
 }
 
+/* MOBILE */
+
 @media (max-width: 900px) {
+
+  .projects-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .projects-nav-inside {
+    width: 100%;
+    overflow-x: auto;
+
+    scrollbar-width: none;
+  }
+
+  .projects-nav-inside::-webkit-scrollbar {
+    display: none;
+  }
+
+  .projects-nav-inside a {
+    white-space: nowrap;
+  }
+
   .project-card {
     grid-template-columns: 1fr;
   }
 
   .project-image-wrap {
-  height: auto;
-  min-height: 230px;
-  padding: 12px;
-  border-radius: 18px;
+    height: auto;
+    min-height: 230px;
+    padding: 12px;
+    border-radius: 18px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 560px) {
+
   .projects-page {
     padding: 100px 16px 70px;
   }
@@ -260,124 +421,161 @@ const CSS = `
     font-size: 14px;
   }
 }
-  .project-card {
-  opacity: 0;
-  transform: translateY(70px);
-}
-
-.show-projects .project-card {
-  animation: projectReveal 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
-  animation-delay: var(--delay);
-}
-
-@keyframes projectReveal {
-
-  0% {
-    opacity: 0;
-    transform: translateY(70px) scale(.96);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
 `;
 
 export default function Projects() {
-  const [visible, setVisible] = useState(false);
 
-const sectionRef = useRef(null);
+  const [visibleCards, setVisibleCards] = useState([]);
 
-useEffect(() => {
+  const cardRefs = useRef([]);
 
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        setVisible(true);
+  useEffect(() => {
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach((entry) => {
+
+          if (entry.isIntersecting) {
+
+            const index = Number(entry.target.dataset.index);
+
+            setVisibleCards((prev) =>
+              prev.includes(index)
+                ? prev
+                : [...prev, index]
+            );
+          }
+        });
+      },
+      {
+        threshold: 0.18,
       }
-    },
-    {
-      threshold: 0.15,
-    }
-  );
+    );
 
-  if (sectionRef.current) {
-    observer.observe(sectionRef.current);
-  }
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
 
-  return () => observer.disconnect();
+    return () => observer.disconnect();
 
-}, []);
+  }, []);
 
   return (
     <>
       <style>{CSS}</style>
 
       <main className="projects-page">
+
         <div className="projects-container">
+
           <Link to="/" className="back-home">
             ← Back home
           </Link>
 
           <header className="projects-header">
-            <p className="projects-mini">SELECTED PROJECTS</p>
 
-            <h1 className="projects-title">
-              Projects I’ve built <span>& worked on.</span>
-            </h1>
+            <div className="projects-top">
+
+              <div>
+
+                <p className="projects-mini">
+                  SELECTED PROJECTS
+                </p>
+
+                <h1 className="projects-title">
+                  Projects I’ve built <span>& worked on.</span>
+                </h1>
+
+              </div>
+
+              <div className="projects-nav-inside">
+
+                <a href="#kravely">Kravely</a>
+                <a href="#hairtopia">HairTopia</a>
+                <a href="#movie">Movie</a>
+                <a href="#mini">Mini Vault</a>
+
+              </div>
+
+            </div>
 
             <p className="projects-subtitle">
-              A collection of web apps, business websites and digital products
-              showing my frontend, backend and UI skills.
+              A collection of web apps, business websites and digital
+              products showing my frontend, backend and UI skills.
             </p>
+
           </header>
 
-          <section
-            className={`projects-list ${visible ? "show-projects" : ""}`}
-            ref={sectionRef}
-          >
+          <section className="projects-list">
+
             {projects.map((project, index) => (
+
               <a
-                 href={project.link}
-                 target="_blank"
-                 rel="noreferrer"
-                 className="project-card"
-                 style={{
-                   "--delay": `${index * 0.12}s`,
-                 }}
-               >
+                key={project.title}
+                id={project.id}
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                ref={(el) => (cardRefs.current[index] = el)}
+                data-index={index}
+                className={`project-card ${
+                  visibleCards.includes(index)
+                    ? "project-card-show"
+                    : ""
+                }`}
+              >
+
                 <div className="project-image-wrap">
+
                   <img
                     src={project.image}
                     alt={project.title}
                     className="project-image"
                     loading="lazy"
                   />
+
                 </div>
 
                 <div className="project-content">
-                  <p className="project-type">{project.type}</p>
 
-                  <h2 className="project-name">{project.title}</h2>
+                  <p className="project-type">
+                    {project.type}
+                  </p>
 
-                  <p className="project-desc">{project.desc}</p>
+                  <h2 className="project-name">
+                    {project.title}
+                  </h2>
+
+                  <p className="project-desc">
+                    {project.desc}
+                  </p>
 
                   <div className="project-tags">
+
                     {project.tags.map((tag) => (
                       <span key={tag}>{tag}</span>
                     ))}
+
                   </div>
 
                   <div className="project-btn">
                     View project
-                    <ArrowUpRight size={17} strokeWidth={2.6} />
+                    <ArrowUpRight
+                      size={17}
+                      strokeWidth={2.6}
+                    />
                   </div>
+
                 </div>
+
               </a>
             ))}
+
           </section>
+
         </div>
+
       </main>
     </>
   );

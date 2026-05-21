@@ -1,4 +1,4 @@
-import { Heart, ArrowUpRight } from "lucide-react";
+import { Heart, ArrowUp } from "lucide-react";
 
 const CSS = `
 .footer {
@@ -46,13 +46,38 @@ const CSS = `
 .footer-links {
   display: flex;
   align-items: center;
-  gap: 14px;
 }
 
 .footer-link {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 18px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+
+  color: #f5ece6;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: .3s ease;
+}
+
+.footer-link:hover {
+  background: #C46A3C;
+  color: #111;
+
+  transform: translateY(-4px);
+}
+
+.footer-link span {
+  font-family: "Inter", sans-serif;
+}
 
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.07);
@@ -99,12 +124,12 @@ export default function Footer() {
             ebuka<span>.</span>
           </div>
 
-          <div className="footer-links">
-             <a href="#">
-              <ArrowUpRight size={18} />
-            </a>
-
-          </div>
+         <div className="footer-links">
+          <a href="#" className="footer-link">
+            <ArrowUp size={18} />
+            <span>Back to top</span>
+          </a>
+        </div>
 
         </div>
       </footer>
