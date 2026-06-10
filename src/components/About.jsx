@@ -1,12 +1,8 @@
 // src/components/About.jsx
 import { useEffect, useRef, useState } from "react";
-import { FaStar, FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { LuUser, LuUserRound } from "react-icons/lu";
+import { Code2, Layers, Zap, Users, ShieldCheck } from "lucide-react";
 
 const ORANGE = "#F97316";
-const ORANGE_DIM = "rgba(249,115,22,0.15)";
-const ORANGE_BORDER = "rgba(249,115,22,0.25)";
-const DARK = "#271919";
 
 const CSS = `
 .about-section {
@@ -127,143 +123,167 @@ const CSS = `
   margin: 0 0 72px;
 }
 
-.about-review-intro {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.about-review-intro p {
+/* WHAT I DO */
+.about-what-label {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #F97316;
-  margin: 0 0 8px;
+  margin: 0 0 12px;
+  text-align: center;
 }
 
-.about-review-intro h3 {
+.about-what-title {
   font-family: 'Syne', sans-serif;
   font-size: clamp(1.4rem, 3vw, 2.2rem);
   font-weight: 700;
   color: #f5ede8;
-  margin: 0;
+  margin: 0 0 48px;
+  text-align: center;
   letter-spacing: -0.03em;
 }
 
-.about-reviews {
+.about-carousel {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.about-carousel-track {
+  display: flex;
+  transition: transform 0.65s ease;
+  width: 100%;
+}
+
+.about-carousel-slide {
+  min-width: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.about-carousel-card {
+  position: relative;
+  width: 100%;
+  padding: 28px 24px 26px;
+  border-radius: 24px;
+  background: rgba(61,42,42,0.75);
+  border: 1px solid rgba(249,115,22,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+}
+
+.about-carousel-card:hover {
+  border-color: rgba(249,115,22,0.28);
+  background: rgba(61,42,42,0.9);
+}
+
+.about-card-glow {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  top: -30px;
+  right: -20px;
+  background: radial-gradient(circle, rgba(249,115,22,0.12), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.about-carousel-card:hover .about-card-glow {
+  opacity: 1;
+}
+
+.about-card-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(249,115,22,0.45);
+  text-transform: uppercase;
+}
+
+.about-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(249,115,22,0.12);
+  border: 1px solid rgba(249,115,22,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  width: 100%;
-  max-width: 900px;
+}
+
+.about-card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f5ede8;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.about-card-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(245,237,232,0.78);
+  margin: 0;
+}
+
+.about-card-line {
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(249,115,22,0.4);
+  margin-top: 4px;
+  transition: width 0.3s ease;
+}
+
+.about-carousel-card:hover .about-card-line {
+  width: 48px;
+}
+
+.about-carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
   margin-bottom: 56px;
 }
 
-.about-nav-button {
-  width: 44px;
-  height: 44px;
+.about-carousel-button {
+  border: 1px solid rgba(249,115,22,0.18);
+  background: rgba(255,255,255,0.04);
+  color: #f5ece6;
+  padding: 12px 20px;
   border-radius: 999px;
-  flex-shrink: 0;
-  border: 1px solid rgba(249,115,22,0.2);
-  background: rgba(249,115,22,0.15);
-  color: #F97316;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.about-card {
-  flex: 1;
-  width: 100%;
-  max-width: 760px;
-  min-height: 320px;
-  padding: 32px 28px;
-  border-radius: 22px;
-  background: rgba(61,42,42,0.68);
-  border: 1px solid rgba(249,115,22,0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.about-star-row {
-  display: flex;
-  gap: 4px;
-}
-
-.about-review-text {
-  margin: 0;
   font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  line-height: 1.85;
-  color: rgba(245,237,232,0.78);
-  flex: 1;
-}
-
-.about-reviewer {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(249,115,22,0.12);
-}
-
-.about-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.about-reviewer-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.about-reviewer-name {
-  margin: 0;
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: #f5ede8;
-}
-
-.about-reviewer-role {
-  margin: 2px 0 0;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  color: rgba(245,237,232,0.42);
-}
-
-.about-badge {
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
-  letter-spacing: 0.04em;
-  color: #F97316;
-}
-
-.about-dots {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-  margin-top: 4px;
-}
-
-.about-dots button {
-  border: none;
   cursor: pointer;
-  transition: width 0.35s ease, background 0.35s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
+.about-carousel-button:hover {
+  background: rgba(249,115,22,0.18);
+  transform: translateY(-1px);
+}
+
+.about-carousel-counter {
+  color: rgba(245,237,232,0.65);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+/* TAGS */
 .about-tags {
   display: flex;
   flex-wrap: wrap;
@@ -282,135 +302,53 @@ const CSS = `
   color: rgba(245,237,232,0.75);
 }
 
-@media (max-width: 900px) {
-  .about-reviews {
-    flex-direction: column;
-  }
-}
-
 @media (max-width: 760px) {
-  .about-section {
-    padding: 100px 18px;
-  }
-
-  .about-card {
-    min-height: auto;
-    padding: 28px 22px;
-  }
+  .about-section { padding: 100px 18px; }
+  .about-carousel { max-width: 100%; }
 }
 
 @media (max-width: 560px) {
-  .about-section {
-    padding: 80px 16px;
-  }
-
-  .about-eyebrow {
-    padding: 6px 14px;
-  }
-
-  .about-headline h2.main,
-  .about-headline h2.accent,
-  .about-headline h2.sub {
-    font-size: clamp(1.8rem, 9vw, 3.2rem);
-  }
-
-  .about-tag {
-    font-size: 12px;
-    padding: 7px 14px;
-  }
+  .about-section { padding: 80px 16px; }
 }
 `;
 
-const reviews = [
+const skills = [
   {
-    name: "Chidi Okonkwo",
-    role: "CEO, Okonkwo Ventures",
-    initials: "CO",
-    gender: "male",
-    text: "Ebuka built our entire business platform from scratch. Clean, fast, and exactly what we needed. He understood the brief immediately and delivered beyond expectations.",
-    stars: 5,
+    num: "01",
+    Icon: Code2,
+    title: "Fullstack Development",
+    desc: "I build both the frontend and backend, from React UIs to Node APIs, databases, and authentication. One developer handles the whole stack so nothing gets lost in translation.",
   },
   {
-    name: "Ngozi Adeyemi",
-    role: "Founder, NaijaMart",
-    initials: "NA",
-    gender: "female",
-    text: "I came with just an idea and left with a fully functional e-commerce site. He's not just a developer — he thinks like a business owner. Highly recommend.",
-    stars: 5,
+    num: "02",
+    Icon: Layers,
+    title: "Design That Converts",
+    desc: "Clean, modern interfaces that not only look great but guide users toward action. I think about UX, hierarchy, and flow.",
   },
   {
-    name: "Emeka Nwosu",
-    role: "Director, TechBridge Lagos",
-    initials: "EN",
-    gender: "male",
-    text: "We had a broken system nobody could fix. Ebuka diagnosed the problem in hours and rebuilt the whole backend. Our team was shocked. Real problem solver.",
-    stars: 5,
+    num: "03",
+    Icon: Zap,
+    title: "Fast Delivery",
+    desc: "Fast delivery with clear direction. I understand the brief, ask the right questions, and deliver work that launches quickly.",
   },
   {
-    name: "Amaka Obi",
-    role: "Owner, Amaka Couture",
-    initials: "AO",
-    gender: "female",
-    text: "My fashion brand needed a proper online presence. He delivered a stunning website that gets me new clients every week. The ROI has been amazing.",
-    stars: 5,
+    num: "04",
+    Icon: Users,
+    title: "Business-First Thinking",
+    desc: "I focus on customers, goals, and revenue. Every decision is about making your product work for your business.",
   },
   {
-    name: "Tunde Fashola",
-    role: "MD, Fashola Properties",
-    initials: "TF",
-    gender: "male",
-    text: "Professional, fast and communicates clearly. He built our property listing platform and it's been running flawlessly for months. Will work with him again.",
-    stars: 5,
+    num: "05",
+    Icon: ShieldCheck,
+    title: "Reliable & Maintainable",
+    desc: "Code you can build on. I write clean, structured systems, not a mess you'll have to rewrite.",
   },
 ];
 
 export default function About() {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const [sliding, setSliding] = useState(false);
-  const [direction, setDirection] = useState("next");
-  const autoRef = useRef(null);
-
-  const goTo = (idx, dir = "next") => {
-    if (sliding) return;
-    setDirection(dir);
-    setSliding(true);
-    setTimeout(() => {
-      setCurrent(idx);
-      setSliding(false);
-    }, 420);
-  };
-
-  const prev = () => goTo((current - 1 + reviews.length) % reviews.length, "prev");
-  const next = () => goTo((current + 1) % reviews.length, "next");
-
-  // Auto-advance every 4 seconds
-  useEffect(() => {
-    autoRef.current = setInterval(() => {
-      setDirection("next");
-      setSliding(true);
-      setTimeout(() => {
-        setCurrent((c) => (c + 1) % reviews.length);
-        setSliding(false);
-      }, 420);
-    }, 5000);
-    return () => clearInterval(autoRef.current);
-  }, []);
-
-  // Reset timer when user manually navigates
-  const manualNav = (fn) => {
-    clearInterval(autoRef.current);
-    fn();
-    autoRef.current = setInterval(() => {
-      setDirection("next");
-      setSliding(true);
-      setTimeout(() => {
-        setCurrent((c) => (c + 1) % reviews.length);
-        setSliding(false);
-      }, 420);
-    }, 4000);
-  };
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -421,26 +359,22 @@ export default function About() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const autoSlide = setInterval(() => {
+      setCurrentSlide((current) => (current + 1) % skills.length);
+    }, 4500);
+
+    return () => clearInterval(autoSlide);
+  }, []);
+
+  const prevSlide = () => setCurrentSlide((current) => (current - 1 + skills.length) % skills.length);
+  const nextSlide = () => setCurrentSlide((current) => (current + 1) % skills.length);
+
   const fadeUp = (delay = 0) => ({
     opacity: visible ? 1 : 0,
     transform: visible ? "translateY(0px)" : "translateY(40px)",
     transition: `opacity 0.8s ease ${delay}s, transform 0.8s ease ${delay}s`,
   });
-
-  const slideStyle = {
-    opacity: sliding ? 0 : 1,
-    transform: sliding
-      ? direction === "next" ? "translateX(40px)" : "translateX(-40px)"
-      : "translateX(0px)",
-    transition: "opacity 0.42s ease, transform 0.42s ease",
-  };
-
-  const r = reviews[current];
-  const isFemale = r.gender === "female";
-
-  // Female = pinkish avatar, Male = blue-ish avatar
-  const avatarBg = isFemale ? "rgba(249,115,22,0.18)" : "rgba(249,115,22,0.1)";
-  const avatarBorder = isFemale ? "rgba(249,115,22,0.4)" : "rgba(249,115,22,0.22)";
 
   return (
     <>
@@ -451,88 +385,70 @@ export default function About() {
         <div className="about-glow" />
 
         <div className="about-container">
+
+          {/* Eyebrow */}
           <div className="about-eyebrow" style={fadeUp(0)}>
             <span className="about-eyebrow-dot" />
             <span className="about-eyebrow-text">About me</span>
           </div>
 
+          {/* Headline */}
           <div className="about-headline" style={fadeUp(0.1)}>
             <h2 className="main">I don't just build</h2>
             <h2 className="accent">websites.</h2>
             <h2 className="sub">I solve business problems.</h2>
           </div>
 
+          {/* Divider */}
           <div className="about-divider" style={fadeUp(0.18)} />
 
+          {/* Bio */}
           <p className="about-bio" style={fadeUp(0.22)}>
-            I'm <strong style={{ color: "#f5ede8", fontWeight: 600 }}>Ebuka Okolo</strong> — a fullstack developer who helps businesses get online, get noticed, and get results. Whether you need a landing page, a complete web system, or a mobile app — I take your problem and turn it into a product that works.
+            I'm <strong style={{ color: "#f5ede8", fontWeight: 600 }}>Ebuka Okolo</strong> — a fullstack
+            developer who helps businesses get online, get noticed, and get results. Whether you need a
+            landing page, a complete web system, or a mobile app — I take your problem and turn it into
+            a product that works.
           </p>
 
-          <div className="about-review-intro" style={fadeUp(0.28)}>
-            <p>What clients say</p>
-            <h3>Real results, real people.</h3>
-          </div>
+          {/* What I do */}
+          <p className="about-what-label" style={fadeUp(0.26)}>What I do</p>
+          <h3 className="about-what-title" style={fadeUp(0.3)}>Clean, responsive work with modern development and clear communication.</h3>
 
-          <div className="about-reviews" style={fadeUp(0.34)}>
-            <button type="button" className="about-nav-button" onClick={() => manualNav(prev)}>
-              <FaChevronLeft size={14} />
-            </button>
-
-            <div className="about-card" style={slideStyle}>
-              <FaQuoteLeft style={{ color: ORANGE, opacity: 0.4, fontSize: 22 }} />
-
-              <div className="about-star-row">
-                {Array(r.stars).fill(0).map((_, si) => (
-                  <FaStar key={si} style={{ color: ORANGE, fontSize: 14 }} />
-                ))}
-              </div>
-
-              <p className="about-review-text">"{r.text}"</p>
-
-              <div className="about-reviewer">
-                <div className="about-avatar" style={{ background: avatarBg, border: `2px solid ${avatarBorder}` }}>
-                  {isFemale ? <LuUserRound size={22} color={ORANGE} strokeWidth={1.8} /> : <LuUser size={22} color={ORANGE} strokeWidth={1.8} />}
-                </div>
-                <div className="about-reviewer-info">
-                  <p className="about-reviewer-name">{r.name}</p>
-                  <p className="about-reviewer-role">{r.role}</p>
-                </div>
-                <div style={{ marginLeft: "auto" }}>
-                  <span className="about-badge" style={{ background: isFemale ? "rgba(249,115,22,0.18)" : "rgba(249,115,22,0.09)", border: `1px solid ${isFemale ? "rgba(249,115,22,0.35)" : "rgba(249,115,22,0.2)"}` }}>
-                    {isFemale ? "Client ♀" : "Client ♂"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="about-dots">
-                {reviews.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => manualNav(() => goTo(idx, idx > current ? "next" : "prev"))}
-                    style={{
-                      width: idx === current ? 22 : 8,
-                      height: 8,
-                      borderRadius: 999,
-                      background: idx === current ? ORANGE : "rgba(249,115,22,0.22)",
-                    }}
-                  />
-                ))}
-              </div>
+          <div className="about-carousel" style={fadeUp(0.34)}>
+            <div className="about-carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+              {skills.map((s) => {
+                const { Icon } = s;
+                return (
+                  <div key={s.num} className="about-carousel-slide">
+                    <div className="about-carousel-card">
+                      <div className="about-card-glow" />
+                      <span className="about-card-num">{s.num}</span>
+                      <div className="about-card-icon">
+                        <Icon size={20} color={ORANGE} strokeWidth={1.8} />
+                      </div>
+                      <p className="about-card-title">{s.title}</p>
+                      <p className="about-card-desc">{s.desc}</p>
+                      <div className="about-card-line" />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-
-            <button type="button" className="about-nav-button" onClick={() => manualNav(next)}>
-              <FaChevronRight size={14} />
-            </button>
           </div>
 
-          <div className="about-tags" style={fadeUp(0.44)}>
+          <div className="about-carousel-nav" style={fadeUp(0.42)}>
+            <button type="button" className="about-carousel-button" onClick={prevSlide}>Previous</button>
+            <div className="about-carousel-counter">{String(currentSlide + 1).padStart(2, '0')} / {String(skills.length).padStart(2, '0')}</div>
+            <button type="button" className="about-carousel-button" onClick={nextSlide}>Next</button>
+          </div>
+
+          {/* Tags */}
+          <div className="about-tags" style={fadeUp(0.5)}>
             {["React", "Node.js", "Supabase", "React Native", "PostgreSQL", "REST APIs", "UI/UX Design", "Fullstack Systems"].map((tag) => (
-              <span key={tag} className="about-tag">
-                {tag}
-              </span>
+              <span key={tag} className="about-tag">{tag}</span>
             ))}
           </div>
+
         </div>
       </section>
     </>

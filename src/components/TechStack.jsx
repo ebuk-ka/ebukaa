@@ -5,6 +5,8 @@ import {
   FaGitAlt,
   FaGithub,
   FaFigma,
+  FaNodeJs,
+  
 } from "react-icons/fa";
 
 import { VscVscode } from "react-icons/vsc";
@@ -14,7 +16,8 @@ import {
   SiSupabase,
   SiTailwindcss,
   SiPostgresql,
-  SiTypescript
+  SiTypescript,
+  SiExpress,
 } from "react-icons/si";
 
 import { useEffect, useRef, useState } from "react";
@@ -27,6 +30,14 @@ const stack = [
   {
     name: "JavaScript",
     icon: <SiJavascript />,
+  },
+  {
+    name: "Node.js",
+    icon: <FaNodeJs />,
+  },
+  {
+    name: "Express.js",
+    icon: <SiExpress />,
   },
   {
     name: "HTML5",
