@@ -10,7 +10,7 @@ const CSS = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --nav-bg: rgba(45,31,31,0.88);
+    --nav-bg: rgba(39,25,25,0.94);
     --nav-border: rgba(255,255,255,0.08);
     --accent: #C46A3C;
     --text: #f0e8e4;
@@ -36,7 +36,7 @@ const CSS = `
   }
 
   .en-nav.scrolled {
-    background: rgba(30,18,18,0.95);
+    background: rgba(39,25,25,0.94);
     box-shadow: 0 2px 28px rgba(0,0,0,0.35);
   }
 
@@ -211,7 +211,7 @@ const CSS = `
     overflow: hidden;
     max-height: 0;
     opacity: 0;
-    background: #1e1212;
+    background: rgba(39,25,25,0.98);
     border-top: 1px solid var(--nav-border);
     transition: max-height 0.44s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
   }

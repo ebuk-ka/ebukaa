@@ -17,11 +17,16 @@ const CONTACTS = [
     value: "github.com/EbukaOkolo",
     link: "https://github.com/EbukaOkolo",
   },
+  {
+    name: "X",
+    value: "x.com/ebv_ka",
+    link:"https://x.com/@ebv_ka"
+  }
 ];
 
 const CSS = `
 .contact-section {
-  background: #2D1F1F;
+  background: #271919;
   padding: 120px 24px;
   overflow: hidden;
 }
@@ -79,8 +84,8 @@ const CSS = `
 }
 
 .contact-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
 }
 

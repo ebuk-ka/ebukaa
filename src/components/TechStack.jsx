@@ -72,7 +72,7 @@ const stack = [
 
 const CSS = `
 .tech-stack-section {
-  background: #2D1F1F;
+  background: #271919;
   padding: 120px 24px;
   overflow: hidden;
 }

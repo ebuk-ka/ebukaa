@@ -17,7 +17,7 @@ const CSS = `
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #2D1F1F;
+  background: #271919;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,8 +64,7 @@ const CSS = `
 }
 
 .hero {
-  background: linear-gradient(180deg, #2D1F1F 0%, #1b1212 100%);
-  min-height: calc(100vh - 64px);
+  background: #271919;
   font-family: 'Syne', sans-serif;
   color: #fff;
   padding-top: 70px;
@@ -363,13 +362,13 @@ export default function Hero({
 
           <div className="hero__card">
             <p className="hero__card-headline">
-              I’m a Fullstack Developer building modern, scalable web apps for
-              businesses that want to grow fast and stand out.
+              I’m a Fullstack Developer building modern, scalable web applications
+              and end-to-end product solutions for ambitious brands.
             </p>
 
             <p className="hero__card-body">
-              I design and develop clean, high-performance digital experiences
-              using React, Supabase and modern tools.
+              I deliver polished user experiences, robust APIs, and cloud-ready
+              systems using React, Supabase, Node.js, and modern web architecture.
             </p>
 
             <div className="hero__cta-group">

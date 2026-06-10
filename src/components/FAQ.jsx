@@ -44,7 +44,7 @@ const faqs = [
 
 const CSS = `
 .faq-section {
-  background: #2D1F1F;
+  background: #271919;
   padding: 110px 24px;
   color: #f5ece6;
 }

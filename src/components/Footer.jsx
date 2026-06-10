@@ -2,9 +2,9 @@ import { Heart, ArrowUp } from "lucide-react";
 
 const CSS = `
 .footer {
-  background: #2D1F1F;
+  background: #271919;
   padding: 28px 20px 40px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .footer-container {
@@ -77,25 +77,6 @@ const CSS = `
 
 .footer-link span {
   font-family: "Inter", sans-serif;
-}
-
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.07);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #f5ece6;
-  text-decoration: none;
-
-  transition: .3s ease;
-}
-
-.footer-link:hover {
-  background: #C46A3C;
-  color: #111;
-  transform: translateY(-4px);
 }
 
 @media (max-width: 700px) {
