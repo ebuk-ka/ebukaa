@@ -5,7 +5,7 @@ const CONTACTS = [
   {
     name: "WhatsApp",
     value: "Let's talk about your project",
-    link: "https://wa.me/2347079629569",
+    link: "https://wa.me/23409021094120",
   },
   {
     name: "Email",
