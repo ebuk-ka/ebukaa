@@ -338,7 +338,7 @@ const NAV_LINKS = [
 
 export default function Navbar({
   name = "Ebuka Okolo",
-  githubUrl = "https://github.com/EbukaOkolo",
+  githubUrl = "https://github.com/ebuk-ka",
   twitterUrl = "https://x.com/@ebv_ka",
   linkedinUrl = "https://www.linkedin.com/in/ebuka-okolo-2022b0380/",
 }) {
