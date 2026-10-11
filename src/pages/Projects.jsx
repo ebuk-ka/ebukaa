@@ -7,10 +7,23 @@ import kravelyImg from "../assets/images/Kravely.png";
 import portfolioImg from "../assets/images/hairtopia.jpeg";
 import businessImg from "../assets/images/movietrailer.jpeg";
 import minivaultImg from "../assets/images/mini.png";
+import nuciImg from "../assets/images/nuci.jpeg";
 
 const ORANGE = "#F97316";
 
 const projects = [
+  {
+  id: "nuci",
+  title: "NUCI",
+  type: "AI-Powered IT Services Platform",
+  desc: "NUCI is an AI-powered IT services platform developed under ILIAC. It helps individuals and businesses identify IT problems through AI-assisted triage and connect with real IT professionals for support, troubleshooting, and repairs. I'm the Co-founder and Head of Product Engineering at ILIAC, leading NUCI's technical direction and engineering.",
+  image: nuciImg,
+  tags: ["AI", "React", "TypeScript", "Node.js", "PostgreSQL", "Product Engineering"],
+  link: "https://nuci.io",
+  Icon: Cpu,
+  accent: "#F97316",
+  num: "01",
+},
   {
     id: "kravely",
     title: "Kravely",
@@ -21,7 +34,7 @@ const projects = [
     link: "https://kravely-qc1s.vercel.app/",
     Icon: ShoppingBag,
     accent: "#F97316",
-    num: "01",
+    num: "02",
   },
   {
     id: "hairtopia",
@@ -33,7 +46,7 @@ const projects = [
     link: "https://hairtopiang.shop",
     Icon: Layers,
     accent: "#e05c8a",
-    num: "02",
+    num: "03",
   },
   {
     id: "movie",
@@ -45,7 +58,7 @@ const projects = [
     link: "https://movietrailerrr.netlify.app/",
     Icon: Film,
     accent: "#7c3aed",
-    num: "03",
+    num: "04",
   },
   {
     id: "mini",
@@ -57,7 +70,7 @@ const projects = [
     link: "https://mini-vault-three.vercel.app/",
     Icon: PiggyBank,
     accent: "#10b981",
-    num: "04",
+    num: "05",
   },
 ];
 

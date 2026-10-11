@@ -393,22 +393,23 @@ export default function About() {
           </div>
 
           {/* Headline */}
-          <div className="about-headline" style={fadeUp(0.1)}>
-            <h2 className="main">I don't just build</h2>
-            <h2 className="accent">websites.</h2>
-            <h2 className="sub">I solve business problems.</h2>
-          </div>
+         <div className="about-headline" style={fadeUp(0.1)}>
+          <h2 className="main">I BUILD WITH</h2>
+          <h2 className="accent">PURPOSE.</h2>
+          <h2 className="sub">Engineering ideas into reality.</h2>
+        </div>
 
           {/* Divider */}
           <div className="about-divider" style={fadeUp(0.18)} />
 
           {/* Bio */}
-          <p className="about-bio" style={fadeUp(0.22)}>
-            I'm <strong style={{ color: "#f5ede8", fontWeight: 600 }}>Ebuka Okolo</strong> — a fullstack
-            developer who helps businesses get online, get noticed, and get results. Whether you need a
-            landing page, a complete web system, or a mobile app — I take your problem and turn it into
-            a product that works.
-          </p>
+              <p className="about-bio" style={fadeUp(0.22)}>
+  I'm <strong style={{ color: "#f5ede8", fontWeight: 600 }}>Ebuka Okolo</strong> —
+  a software engineer and product builder focused on turning ideas into
+  useful digital experiences. From intuitive interfaces to backend systems
+  and APIs, I enjoy working across the stack to solve real problems and
+  build technology people can rely on.
+</p>
 
           {/* What I do */}
           <p className="about-what-label" style={fadeUp(0.26)}>What I do</p>
@@ -440,13 +441,6 @@ export default function About() {
             <button type="button" className="about-carousel-button" onClick={prevSlide}>Previous</button>
             <div className="about-carousel-counter">{String(currentSlide + 1).padStart(2, '0')} / {String(skills.length).padStart(2, '0')}</div>
             <button type="button" className="about-carousel-button" onClick={nextSlide}>Next</button>
-          </div>
-
-          {/* Tags */}
-          <div className="about-tags" style={fadeUp(0.5)}>
-            {["React", "Node.js", "Supabase", "React Native", "PostgreSQL", "REST APIs", "UI/UX Design", "Fullstack Systems"].map((tag) => (
-              <span key={tag} className="about-tag">{tag}</span>
-            ))}
           </div>
 
         </div>

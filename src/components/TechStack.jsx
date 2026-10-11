@@ -1,12 +1,11 @@
 import {
   FaReact,
-  FaHtml5,
+  FaPython,
   FaCss3Alt,
   FaGitAlt,
   FaGithub,
   FaFigma,
   FaNodeJs,
-  
 } from "react-icons/fa";
 
 import { VscVscode } from "react-icons/vsc";
@@ -39,10 +38,10 @@ const stack = [
     name: "Express.js",
     icon: <SiExpress />,
   },
-  {
-    name: "HTML5",
-    icon: <FaHtml5 />,
-  },
+ {
+  name: "Python",
+  icon: <FaPython />,
+},
   {
     name: "CSS3",
     icon: <FaCss3Alt />,
@@ -275,9 +274,10 @@ export default function TechStack() {
               Top Languages <span>& Technologies</span>
             </h2>
 
-            <p className="stack-desc">
-              My go-to tools for building premium, scalable and modern web experiences.
-            </p>
+           <p className="stack-desc">
+  The languages and tools I use to build digital products, develop backend
+  systems, and bring ideas to life.
+</p>
           </div>
 
           <div className="tech-grid">
