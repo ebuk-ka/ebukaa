@@ -7,7 +7,7 @@ import kravelyImg from "../assets/images/Kravely.png";
 import portfolioImg from "../assets/images/hairtopia.jpeg";
 import businessImg from "../assets/images/movietrailer.jpeg";
 import minivaultImg from "../assets/images/mini.png";
-import nuciImg from "../assets/images/nuci.jpeg";
+import nuciImg from "../assets/images/Nuci.jpeg";
 
 const ORANGE = "#F97316";
 
