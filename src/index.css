@@ -1,3 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+  background: #271919;
+}
+
+body {
+  background: #271919;
+  color: #f5ece6;
+  font-family: "DM Sans", sans-serif;
+}
+
+.app { min-height: 100vh; }
+
+:focus-visible {
+  outline: 3px solid #f97316;
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 200;
+  padding: 12px 18px;
+  background: #f5ece6;
+  color: #271919;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+.not-found {
+  min-height: 75vh;
+  padding: 160px 24px 80px;
+  text-align: center;
+}
+
+.not-found h1 { font-family: "Syne", sans-serif; }
+.not-found p { margin: 24px 0; }
+.not-found a { color: #f97316; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
 }

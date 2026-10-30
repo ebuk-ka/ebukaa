@@ -4,14 +4,18 @@ import { ArrowUpRight, ArrowRight, Circle } from "lucide-react";
 import "./Hero.css";
 
 export default function Hero({ photo = ebukaImage }) {
-return ( <section className="hero"> <div className="hero__grid"> <div className="hero__photo-col"> <div className="hero__photo-wrap"> <img
+  return (
+    <section className="hero">
+      <div className="hero__grid">
+        <div className="hero__photo-col">
+          <div className="hero__photo-wrap">
+            <img
            src={photo}
            alt="Ebuka Okolo, software engineer and product builder"
            className="hero__photo"
            loading="eager"
          />
 
-```
         <div className="hero__photo-caption">
           <span>BASED IN NIGERIA</span>
           <span>BUILDING FOR THE WORLD</span>

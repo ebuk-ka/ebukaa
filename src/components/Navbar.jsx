@@ -1,305 +1,10 @@
+import "./Navbar.css";
 // src/components/Navbar.jsx
 
 import { useState, useEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
-const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --nav-bg: rgba(39,25,25,0.94);
-    --nav-border: rgba(255,255,255,0.08);
-    --accent: #C46A3C;
-    --text: #f0e8e4;
-    --text-mid: #d4c4be;
-    --text-muted: #7a6056;
-  }
-
-  .en-nav {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--nav-bg);
-    border-bottom: 1px solid var(--nav-border);
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    transition: transform 0.25s ease, box-shadow 0.3s, background 0.3s;
-    backdrop-filter: blur(20px);
-  }
-
-  .en-nav.hidden {
-    transform: translateY(-120%);
-  }
-
-  .en-nav.scrolled {
-    background: rgba(39,25,25,0.94);
-    box-shadow: 0 2px 28px rgba(0,0,0,0.35);
-  }
-
-  .en-nav__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 28px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-  }
-
-  .en-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    flex-shrink: 0;
-    margin-right: 28px;
-  }
-
-  .en-logo__mark {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    background: #C46A3C;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 0 3px rgba(196,106,60,0.18);
-  }
-
-  .en-logo__mark span {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 17px;
-    color: #000;
-  }
-
-  .en-logo__text {
-    font-family: 'Syne', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .en-logo__text em {
-    font-style: normal;
-    color: #C46A3C;
-  }
-
-  .en-links {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    flex: 1;
-  }
-
-  .en-link {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-mid);
-    text-decoration: none;
-    padding: 7px 13px;
-    border-radius: 10px;
-    transition: 0.16s;
-    white-space: nowrap;
-  }
-
-  .en-link:hover {
-    color: var(--text);
-    background: rgba(255,255,255,0.06);
-  }
-
-  .en-link--pill {
-    background: rgba(196,106,60,0.15);
-    border: 1px solid rgba(196,106,60,0.22);
-    border-radius: 999px;
-    color: #C46A3C;
-    padding: 6px 14px 6px 11px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .en-pill-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #C46A3C;
-  }
-
-  .en-sep {
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: var(--text-muted);
-    margin: 0 6px;
-  }
-
-  .en-right {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: auto;
-  }
-
-  .en-icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-mid);
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.15s;
-  }
-
-  .en-icon-btn:hover {
-    background: rgba(255,255,255,0.08);
-    color: var(--text);
-  }
-
-  .en-ham {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 8px;
-    border-radius: 10px;
-    margin-left: 6px;
-  }
-
-  .en-ham__bar {
-    height: 2px;
-    background: var(--text);
-    border-radius: 2px;
-    transition: 0.3s ease;
-  }
-
-  .en-ham__bar:nth-child(1) { width: 13px; }
-  .en-ham__bar:nth-child(2) { width: 22px; }
-  .en-ham__bar:nth-child(3) { width: 17px; }
-
-  .en-ham.open .en-ham__bar:nth-child(1) {
-    width: 20px;
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  .en-ham.open .en-ham__bar:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0);
-  }
-
-  .en-ham.open .en-ham__bar:nth-child(3) {
-    width: 20px;
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  .en-mobile {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    width: 100%;
-    z-index: 99;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    background: rgba(39,25,25,0.98);
-    border-top: 1px solid var(--nav-border);
-    transition: max-height 0.44s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
-  }
-
-  .en-mobile.open {
-    max-height: 500px;
-    opacity: 1;
-  }
-
-  .en-mobile__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 22px 28px 32px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .en-mobile__link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: 'Syne', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text);
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    background: none;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    width: 100%;
-    cursor: pointer;
-    text-align: left;
-  }
-
-  .en-mobile__icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: rgba(196,106,60,0.12);
-    color: #C46A3C;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.25s ease;
-  }
-
-  .en-mobile__link:hover .en-mobile__icon {
-    transform: translate(3px, -3px);
-    background: #C46A3C;
-    color: #111;
-  }
-
-  .en-mobile__socials {
-    display: flex;
-    gap: 10px;
-    margin-top: 22px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    flex-wrap: wrap;
-  }
-
-  .en-mobile__soc {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 9px 14px;
-    color: var(--text-mid);
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  @media (max-width: 860px) {
-    .en-links { display: none; }
-    .en-ham { display: flex; }
-  }
-
-  @media (max-width: 480px) {
-    .en-nav__inner { padding: 0 16px; }
-    .en-mobile__inner { padding: 16px 16px 28px; }
-    .en-mobile__link { font-size: 21px; }
-  }
-`;
+import { Link } from "react-router-dom";
+import { SOCIAL_LINKS } from "../data/socialLinks";
 
 function GithubIcon() {
   return (
@@ -331,22 +36,22 @@ function LinkedInIcon() {
 
 const NAV_LINKS = [
   { href: "/projects", label: "Projects" },
-  { href: "#work", label: "Let's Work", pill: true },
-  { href: "#skills", label: "Skills & Tools" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#contact", label: "Let's Work", pill: true },
+  { href: "/#skills", label: "Skills & Tools" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Navbar({
   name = "Ebuka Okolo",
-  githubUrl = "https://github.com/ebuk-ka",
-  twitterUrl = "https://x.com/@ebv_ka",
-  linkedinUrl = "https://www.linkedin.com/in/ebuka-okolo-2022b0380/",
+  githubUrl = SOCIAL_LINKS.github,
+  twitterUrl = SOCIAL_LINKS.twitter,
+  linkedinUrl = SOCIAL_LINKS.linkedin,
 }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showNav, setShowNav] = useState(true);
   const lastScrollY = useRef(0);
-  const navigate = useNavigate();
+  const menuButtonRef = useRef(null);
 
   useEffect(() => {
     const updateNav = () => {
@@ -375,71 +80,68 @@ export default function Navbar({
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-   const handleMobileNav = (href) => {
-  setOpen(false);
-
-  if (href.startsWith("#")) {
-
-    setTimeout(() => {
-      document.querySelector(href)?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 300);
-
-  } else {
-
-    setTimeout(() => {
-      navigate(href);
-    }, 300);
-
-  }
-};
+  useEffect(() => {
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape" && open) {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    const desktop = window.matchMedia("(min-width: 861px)");
+    const closeOnDesktop = () => setOpen(false);
+    document.addEventListener("keydown", closeOnEscape);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [open]);
 
   const firstName = name.split(" ")[0].toLowerCase();
   const lastName = name.split(" ")[1]?.toLowerCase() || "";
 
   return (
     <>
-      <style>{CSS}</style>
-
       <header>
         <nav className={`en-nav${scrolled ? " scrolled" : ""}${!showNav ? " hidden" : ""}`}>
           <div className="en-nav__inner">
-            <a href="/" className="en-logo">
+            <Link to="/" className="en-logo">
               <div className="en-logo__mark">
                 <span>{name[0]}</span>
               </div>
               <span className="en-logo__text">
                 {firstName}<em>{lastName}</em>
               </span>
-            </a>
+            </Link>
 
             <div className="en-links">
               {NAV_LINKS.map((link, i) => (
-                <span key={link.href} style={{ display: "flex", alignItems: "center" }}>
+                <span key={link.label} style={{ display: "flex", alignItems: "center" }}>
                   {i === 2 && <div className="en-sep" />}
-                  <a href={link.href} className={`en-link ${link.pill ? "en-link--pill" : ""}`}>
+                  <Link to={link.href} className={`en-link ${link.pill ? "en-link--pill" : ""}`}>
                     {link.pill && <div className="en-pill-dot" />}
                     {link.label}
-                  </a>
+                  </Link>
                 </span>
               ))}
             </div>
 
             <div className="en-right">
-              <button className="en-icon-btn" onClick={() => window.open(githubUrl, "_blank")}>
+              <a className="en-icon-btn" href={githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub">
                 <GithubIcon />
-              </button>
+              </a>
 
-              <button className="en-icon-btn" onClick={() => window.open(twitterUrl, "_blank")}>
+              <a className="en-icon-btn" href={twitterUrl} target="_blank" rel="noreferrer" aria-label="X">
                 <XIcon />
-              </button>
+              </a>
 
-              <button className="en-icon-btn" onClick={() => window.open(linkedinUrl, "_blank")}>
+              <a className="en-icon-btn" href={linkedinUrl} target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <LinkedInIcon />
-              </button>
+              </a>
 
               <button
+                ref={menuButtonRef}
+                aria-controls="mobile-navigation"
                 className={`en-ham${open ? " open" : ""}`}
                 onClick={() => {
                   setShowNav(true);
@@ -456,20 +158,21 @@ export default function Navbar({
           </div>
         </nav>
 
-        <div className={`en-mobile${open ? " open" : ""}`}>
+        <div id="mobile-navigation" className={`en-mobile${open ? " open" : ""}`} inert={!open} aria-hidden={!open}>
           <div className="en-mobile__inner">
             {NAV_LINKS.map((link) => (
-              <button
-                key={link.href}
+              <Link
+                key={link.label}
+                to={link.href}
                 className="en-mobile__link"
-                onClick={() => handleMobileNav(link.href)}
+                onClick={() => setOpen(false)}
               >
                 {link.label}
 
                 <span className="en-mobile__icon">
                   <ArrowUpRight size={18} strokeWidth={2.5} />
                 </span>
-              </button>
+              </Link>
             ))}
 
             <div className="en-mobile__socials">
